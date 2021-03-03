@@ -48,25 +48,15 @@ Route::get('/search', function () {
         return view('pages.search');
    });
 
+Route::post('/main/set_password', 'MainController@set_password');
+
 Route::get('/forgotpassword', function () {
     return view('pages.forgotpassword');
-})->middleware('guest')->name('password.request');
+});
 
-Route::post('/forgotpassword', function (Request $request) {
-    $request->validate(['email' => 'required|email']);
-    $status = Password::sendResetLink(
-        $request->only('email')
-    );
-    print ($status);
 
-    // return $status === Password::RESET_LINK_SENT
-    //             ? back()->with(['status' => __($status)])
-    //             : back()->withErrors(['email' => __($status)]);
-})->middleware('guest')->name('password.email');;
-
+Route::post('/main/forgot_password','MainController@forgot_password');
 Route::post('/main/checklogin','MainController@checklogin');
 Route::get('main/successlogin', 'MainController@successlogin');
 Route::get('main/logout', 'MainController@logout');
-//Route::get('main/confirm', 'MainController@confirm');
-//Route::get('/', [PagesController::class, 'index']);
     

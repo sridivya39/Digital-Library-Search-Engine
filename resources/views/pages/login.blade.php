@@ -47,7 +47,11 @@
   <p class="heading">Login</p>
   <div class="container box">
   <!-- <h3 align="center">Simple Login System in Laravel</h3><br /> -->  
-    
+  @if(session()->has('message'))
+    <div class="alert alert-success">
+        {{ session()->get('message') }}
+    </div>
+  @endif
    @if(isset(Auth::user()->email))
     <script>window.location="/main/successlogin";</script>
    @endif
