@@ -34,7 +34,8 @@ Route::get('/main', [
     ]);
 
 Route::get('/update', function () {
-        return view('pages.update');
+        $userInfo = Auth::user();
+        return view('pages.update',['userInfo' => $userInfo]);
    });
 Route::post('/main/process_update','MainController@process_update');
 
