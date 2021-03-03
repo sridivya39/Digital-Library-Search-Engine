@@ -30,20 +30,24 @@
     font-size:100px;
     text-align:center;
     }
+    a {
+    color: #f5f5f5;
+    text-decoration: none;
+}
   </style>
  </head>
  <body>
   <br />
   <p class="heading">Update Profile</p>
   <div class="container box">
-  <!-- @if(session()->has('message'))
+  @if(session()->has('message'))
     <div class="alert alert-success">
         {{ session()->get('message') }}
     </div>
 @endif
-   @if(isset(Auth::user()->email))
+   <!-- @if(isset(Auth::user()->email))
     <script>window.location="/main/successlogin";</script>
-   @endif
+   @endif -->
 
    @if ($message = Session::get('error'))
    <div class="alert alert-danger alert-block">
@@ -52,7 +56,7 @@
    </div>
    @endif
 
-   @if (count($errors) > 0)
+   <!-- @if (count($errors) > 0)
     <div class="alert alert-danger">
      <ul>
      @foreach($errors->all() as $error)
@@ -62,22 +66,23 @@
     </div>
    @endif -->
   <!-- <h3 align="center">Simple Login System in Laravel</h3><br /> -->  
-  <form method="post" action="{{ url('/main/process_update') }}">
-    {{ csrf_field() }}
+  <form action="/main/process_update" method="post">
+   @csrf
+   <input type="hidden" name="id" value="{{$userInfo['id']}}" />
     <div class="form-group">
      <label>First Name</label>
-     <input type="text" name="First Name" class="form-control" />
+     <input type="text" name="first_name" class="form-control" value={{$userInfo->first_name}} />
     </div>
     <div class="form-group">
      <label>Last Name</label>
-     <input type="text" name="Last Name" class="form-control" />
+     <input type="text" name="last_name" class="form-control" value={{$userInfo->last_name}} />
     </div>
     <div class="form-group">
      <label>Enter Email</label>
-     <input type="email" name="email" class="form-control" />
+     <input type="email" name="email" class="form-control" value={{$userInfo->email}} />
     </div>
     <div class="form-group">
-     <label>Enter Password</label>
+     <label>Change Password</label>
      <input type="password" name="New Password" class="form-control" />
     </div>
     <div class="form-group">
@@ -86,6 +91,7 @@
     </div>
     <div class="form-group">
      <input type="submit" name="update" class="btn btn-primary" value="UPDATE INFO" style="font-weight:bold"/>
+     <p class="sign-up text-center"><a href="\main\successlogin"><b>Go to dashboard</b></a></p>
     </div>
    </form>
   </div>
