@@ -88,7 +88,7 @@
     </div>
     <div class="form-group">
      <label>Confirm Password</label>
-     <input type="password" name=" Confirm Password" class="form-control" />
+     <input type="password" name="confirm_password" class="form-control" />
     </div>
     <div class="form-group">
      <input type="submit" name="register" class="btn btn-primary" value="Register" style="font-weight:bold"/>

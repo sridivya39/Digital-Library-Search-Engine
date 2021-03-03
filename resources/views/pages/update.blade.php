@@ -83,11 +83,11 @@
     </div>
     <div class="form-group">
      <label>Change Password</label>
-     <input type="password" name="New Password" class="form-control" />
+     <input type="password" name="new_password" class="form-control" />
     </div>
     <div class="form-group">
      <label>Confirm Password</label>
-     <input type="password" name=" Confirm Password" class="form-control" />
+     <input type="password" name="confirm_password" class="form-control" />
     </div>
     <div class="form-group">
      <input type="submit" name="update" class="btn btn-primary" value="UPDATE INFO" style="font-weight:bold"/>

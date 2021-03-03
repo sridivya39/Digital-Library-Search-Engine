@@ -54,8 +54,8 @@ class MainController extends Controller
             'first_name'       => 'required',
             'last_name'        => 'required',
             'email'            => 'required|email',
-            'password'         => 'min:6||alphaNum|required_with:confirm_password',
-            'confirm_password' => 'min:6|same:confirm_password'
+            'password'         => 'min:6|alphaNum|required_with:confirm_password',
+            'confirm_password' => 'min:6|same:password'
         ]);
         $user = User::create([
             'first_name'   => $request->input('first_name'),
@@ -71,14 +71,15 @@ class MainController extends Controller
         $request->validate([
             'first_name'           => 'required',
             'last_name'            => 'required',
-            'password'             => 'min:6|required_with:confirm_password',
-            'confirm_password'     => 'min:6|same:confirm_password'
+            'email'                => 'required|email',
+            'new_password'         => 'min:6|alphaNum|required_with:confirm_password',
+            'confirm_password'     => 'min:6|same:new_password'
         ]);
         $userInfo=User::find($request->id);
         $userInfo->first_name=$request->first_name;
         $userInfo->last_name=$request->last_name;
         $userInfo->email=$request->email;
-        $userInfo->password=Hash::make($request->input('password'));
+        $userInfo->password=Hash::make($request->input('new_password'));
         $userInfo->save();
         return redirect()->back()->with('message', 'You have updated your information succesfully!');
     }
