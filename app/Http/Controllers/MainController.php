@@ -45,6 +45,11 @@ class MainController extends Controller
     
     public function process_signup(Request $request)
     {   
+        if (DB::table('users')->where('email', $request->email)->exists()) {
+            $userInfo = Auth::user();
+            $userInfo = DB::table('users')->where('email', $request->email)->first();
+            return redirect()->back()->with('error', 'This user already exists!');
+        }
         
         $request->validate([
             'first_name'       => 'required',
