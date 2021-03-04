@@ -46,7 +46,13 @@
   <br />
   <p class="heading">Login</p>
   <div class="container box">
-  <!-- <h3 align="center">Simple Login System in Laravel</h3><br /> -->  
+
+    <?php if($message): ?>
+        <div class="alert alert-danger">
+            <?php echo e($message); ?>
+
+        </div>
+    <?php endif; ?>
   <?php if(session()->has('message')): ?>
     <div class="alert alert-success">
         <?php echo e(session()->get('message')); ?>

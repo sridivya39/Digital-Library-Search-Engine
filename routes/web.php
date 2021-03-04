@@ -42,6 +42,10 @@ Route::post('/main/process_update','MainController@process_update');
 Route::get('/register', function () {
          return view('pages.register');
     });
+
+Route::get('/adv_search', function () {
+    return view('pages.login')->with('message','You need an account to access Advance Search!');
+});
 Route::post('/main/process_signup','MainController@process_signup');
 
 Route::get('/index', function () {
@@ -53,7 +57,6 @@ Route::post('/main/set_password', 'MainController@set_password');
 Route::get('/forgotpassword', function () {
     return view('pages.forgotpassword');
 });
-
 
 Route::post('/main/forgot_password','MainController@forgot_password');
 Route::post('/main/checklogin','MainController@checklogin');

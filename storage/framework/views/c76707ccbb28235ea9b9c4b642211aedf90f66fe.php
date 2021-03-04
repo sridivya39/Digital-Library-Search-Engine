@@ -62,6 +62,11 @@
   display: block;
   padding: 8px;
 }
+.btn-primary {
+    color: #fff;
+    background-color:  #82375d;
+    border-color:#82375d;
+}
   </style>
  </head>
  <body>
@@ -78,12 +83,23 @@
     <div style="text-align:center;" class="alert alert-danger success-block">
      <strong>Welcome <?php echo e(Auth::user()->first_name); ?>!!</strong>
      <br />
-     
     </div>
    <?php else: ?>
     <script>window.location = "/main";</script>
    <?php endif; ?>
-   
+   <form action="/search" method="POST" role="search">
+    <?php echo e(csrf_field()); ?>
+
+    <div class="input-group" style="margin:20px;">
+        <input type="text" class="form-control" name="q"
+            placeholder="Search"> <span class="input-group-btn">
+            <div class="form-group" style="margin-left:20px;">
+                <input type="submit" name="Submit" class="btn btn-primary" value="Submit" style="font-weight:bold" />
+                     </div>
+                     <div class="form-group" style="margin-left:20px;">
+                        <input type="submit" name="Submit" class="btn btn-primary" value="Advance Search" style="font-weight:bold" />
+                     </div> 
+    </form>
    <br />
   </div>
  </body>

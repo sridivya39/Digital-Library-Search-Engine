@@ -46,7 +46,12 @@
   <br />
   <p class="heading">Login</p>
   <div class="container box">
-  <!-- <h3 align="center">Simple Login System in Laravel</h3><br /> -->  
+
+    @if($message)
+        <div class="alert alert-danger">
+            {{ $message }}
+        </div>
+    @endif
   @if(session()->has('message'))
     <div class="alert alert-success">
         {{ session()->get('message') }}
