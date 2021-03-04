@@ -47,7 +47,7 @@
   <p class="heading">Login</p>
   <div class="container box">
 
-    <?php if($message): ?>
+    <?php if($message ?? ''): ?>
         <div class="alert alert-danger">
             <?php echo e($message); ?>
 

@@ -47,7 +47,7 @@
   <p class="heading">Login</p>
   <div class="container box">
 
-    @if($message)
+    @if($message ?? '')
         <div class="alert alert-danger">
             {{ $message }}
         </div>

@@ -10,7 +10,7 @@
   <style type="text/css">
    .box{
     width:600px;
-    margin-top:10%;
+    margin-top:3%;
     /* border:1px solid #ccc; */
    }
    body {
