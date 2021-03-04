@@ -67,6 +67,7 @@
     <div class="form-group">
      <input type="submit" name="update" class="btn btn-primary" value="SET PASSWORD" style="font-weight:bold"/>
     </div>
+    <p class="sign-up text-center"><a href="\main"><b>Login</b></a></p>
    </form>
   </div>
  </body>
