@@ -44,8 +44,8 @@ Route::get('/register', function () {
     });
 Route::post('/main/process_signup','MainController@process_signup');
 
-Route::get('/search', function () {
-        return view('pages.search');
+Route::get('/index', function () {
+        return view('pages.index');
    });
 
 Route::post('/main/set_password', 'MainController@set_password');
