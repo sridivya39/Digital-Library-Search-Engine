@@ -86,8 +86,20 @@
     </div>
     <div class="form-group">
      <label>Enter Password</label>
-     <input type="password" name="password" class="form-control" />
+     <script>
+    $(document).ready(function(){
+    $('#checkbox').on('change', function(){
+    $('#password').attr('type',$('#checkbox').prop('checked')==true?"text":"password"); 
+      });
+      });
+    </script>
+    <input type="password" id="password" class="form-control" />
+    <input type="checkbox" id="checkbox"> Show Password
     </div>
+    <!-- <div class="form-group">
+     <label>Enter Password</label>
+     <input type="password" name="password" class="form-control" />
+    </div> -->
     <div class="form-group row mb-0">
         <div class="col-md-8 offset-md-4">
             <button type="submit" class="btn btn-primary">

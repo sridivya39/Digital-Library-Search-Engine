@@ -87,7 +87,8 @@
    @else
     <script>window.location = "/main";</script>
    @endif
-   <form action="/search" method="POST" role="search">
+   <form action="/main/process_advsearch" method="post">
+   <!-- <form action="/search" method="POST" role="search"> -->
     {{ csrf_field() }}
     <div class="input-group" style="margin:20px;">
         <input type="text" class="form-control" name="q"

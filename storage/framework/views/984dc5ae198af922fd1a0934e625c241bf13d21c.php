@@ -73,28 +73,48 @@
     <?php echo e(csrf_field()); ?>
 
     <div class="form-group">
-     <label>First Name</label>
+     <!-- <label>First Name</label> -->
+     <label for="firstname">First Name<strong>*</strong></label> 
      <input type="text" name="first_name" class="form-control" />
     </div>
     <div class="form-group">
-     <label>Last Name</label>
+     <label>Last Name*</label>
      <input type="text" name="last_name" class="form-control" />
     </div>
     <div class="form-group">
-     <label>Enter Email</label>
+     <label>Enter Email*</label>
      <input type="email" name="email" class="form-control" />
     </div>
     <div class="form-group">
-     <label>Enter Password</label>
-     <input type="password" name="password" class="form-control" />
+     <label>Enter Password*</label>
+     <script>
+    $(document).ready(function(){
+    $('#checkbox').on('change', function(){
+    $('#password').attr('type',$('#checkbox').prop('checked')==true?"text":"password"); 
+      });
+      });
+    </script>
+    <input type="password" id="password" class="form-control" />
+    <input type="checkbox" id="checkbox"> Show Password
     </div>
     <div class="form-group">
-     <label>Confirm Password</label>
-     <input type="password" name="confirm_password" class="form-control" />
+     <!-- <label>Confirm Password*</label>
+     <script>
+    $(document).ready(function(){
+    $('#checkbox').on('change', function(){
+    $('#password').attr('type',$('#checkbox').prop('checked')==true?"text":"password"); 
+      });
+      });
+    </script>
+    <input type="password" id="password" class="form-control" />
+    <input type="checkbox" id="checkbox"> Show Password -->
+   <input type="password" name="confirm_password" class="form-control" />
     </div>
     <div class="form-group">
      <input type="submit" name="register" class="btn btn-primary" value="Register" style="font-weight:bold"/>
     </div>
+    
+
     <p class="sign-up text-center">Already have an Account?<a href="\main"> Sign In</a></p>
     <p class="terms">By creating an account you are accepting our<a href="#"> Terms & Conditions</a></p>
    </form>

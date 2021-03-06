@@ -87,7 +87,8 @@
    <?php else: ?>
     <script>window.location = "/main";</script>
    <?php endif; ?>
-   <form action="/search" method="POST" role="search">
+   <form action="/main/process_advsearch" method="post">
+   <!-- <form action="/search" method="POST" role="search"> -->
     <?php echo e(csrf_field()); ?>
 
     <div class="input-group" style="margin:20px;">

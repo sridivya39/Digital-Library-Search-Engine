@@ -46,6 +46,7 @@ Route::get('/register', function () {
 Route::get('/adv_search', function () {
     return view('pages.login')->with('message','You need an account to access Advance Search!');
 });
+Route::post('/main/process_advsearch','MainController@process_advsearch');
 Route::post('/main/process_signup','MainController@process_signup');
 
 Route::get('/index', function () {

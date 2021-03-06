@@ -114,6 +114,11 @@ class MainController extends Controller
         // return redirect('main/successlogin')->with('message','You have changed your password successfully!');
     }
 
+    public function process_advsearch(Request $request)
+    {
+        return view('pages.advancesearch');
+    }
+
     function logout()
     {
      Auth::logout();
