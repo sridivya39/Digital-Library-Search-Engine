@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\Password;
 // Route::get('/', function () {
 //     return "<h1>Hello world</h1>";
 // });
-// Route::get('/about', function () {
-//     return view('pages.about');
-// });
+Route::get('/about', function () {
+    return view('pages.about');
+});
 // Route::get('/users/{id}',function($id)
 // {
 //     return "This is user " .$id;
@@ -39,6 +39,8 @@ Route::get('/update', function () {
    });
 Route::post('/main/process_update','MainController@process_update');
 
+Route::get('/main/verify', 'MainController@verify_user')->name('verify.user');
+
 Route::get('/register', function () {
          return view('pages.register');
     });
@@ -53,14 +55,17 @@ Route::get('/index', function () {
         return view('pages.index');
    });
 
+Route::get('/setnewpassword', function () {
+    $userInfo = Auth::user();
+    return view('pages.setnewpassword',['userInfo' => $userInfo]);
+});
+
 Route::post('/main/set_password', 'MainController@set_password');
 
 Route::get('/forgotpassword', function () {
     return view('pages.forgotpassword');
 });
-
 Route::post('/main/forgot_password','MainController@forgot_password');
 Route::post('/main/checklogin','MainController@checklogin');
 Route::get('main/successlogin', 'MainController@successlogin');
 Route::get('main/logout', 'MainController@logout');
-    

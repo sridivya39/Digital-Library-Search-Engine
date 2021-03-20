@@ -3,7 +3,11 @@
  <head>
   <title>Sign up</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap" rel="stylesheet"/>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -87,33 +91,22 @@
     </div>
     <div class="form-group">
      <label>Enter Password*</label>
-     <script>
-    $(document).ready(function(){
-    $('#checkbox').on('change', function(){
-    $('#password').attr('type',$('#checkbox').prop('checked')==true?"text":"password"); 
-      });
-      });
-    </script>
-    <input type="password" id="password" class="form-control" />
-    <input type="checkbox" id="checkbox"> Show Password
-    </div>
+     <input type="password" name="password" class="form-control" data-toggle="password"/>
+    </div> 
+
     <div class="form-group">
-     <!-- <label>Confirm Password*</label>
-     <script>
-    $(document).ready(function(){
-    $('#checkbox').on('change', function(){
-    $('#password').attr('type',$('#checkbox').prop('checked')==true?"text":"password"); 
-      });
-      });
-    </script>
-    <input type="password" id="password" class="form-control" />
-    <input type="checkbox" id="checkbox"> Show Password -->
-   <input type="password" name="confirm_password" class="form-control" />
+
+    <label>Confirm Password*</label>
+    <input type="password" name="confirm_password" class="form-control" data-toggle="password" />
     </div>
+    <div id="passwordHelpBlock" class="form-text">
+    Your password must be 6-20 characters long, can contain letters and numbers, and must not contain spaces, special characters, or emoji.
+    </div>
+    <br>
     <div class="form-group">
-     <input type="submit" name="register" class="btn btn-primary" value="Register" style="font-weight:bold"/>
+    <input type="submit" name="register" class="btn btn-primary" value="Register" style="font-weight:bold"/>
     </div>
-    
+
 
     <p class="sign-up text-center">Already have an Account?<a href="\main"> Sign In</a></p>
     <p class="terms">By creating an account you are accepting our<a href="#"> Terms & Conditions</a></p>

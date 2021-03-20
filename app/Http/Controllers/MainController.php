@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use Validator;
 use Auth;
+use Mail;
 
 class MainController extends Controller
 {
@@ -20,7 +21,7 @@ class MainController extends Controller
     {
      $this->validate($request, [
       'email'   => 'required|email',
-      'password'  => 'required|alphaNum|min:6'
+      'password'=> 'required|alphaNum|min:6'
      ]);
 
      $user_data = array(
@@ -62,9 +63,17 @@ class MainController extends Controller
             'first_name'   => $request->input('first_name'),
             'last_name'    => $request->input('last_name'),
             'email'        => $request->input('email'),
-            'password'     => Hash::make($request->input('password'))
+            'password'     => Hash::make($request->input('password')),
+            'verification_code'=>sha1(time())
+           
         ]);
-        return redirect()->back()->with('message', 'You are successfully Registered!');
+        // return redirect()->back()->with('message', 'You are successfully Registered!');
+        if($user != null)
+        {
+            MailController::sendSignupEmail($user->first_name,$user->email,$user->verification_code);
+            return redirect()->back()->with('message','Your Account has been created,Please Check your email for verification link');
+        }
+            return redirect()->back()->with('message','Something went wrong!');
     }
 
     public function process_update(Request $request)
@@ -84,21 +93,37 @@ class MainController extends Controller
         $userInfo->save();
         return redirect()->back()->with('message', 'You have updated your information succesfully!');
     }
-
-    public function setnewpassword($userInfo,$message){
-        return view('pages.setnewpassword',['userInfo' => $userInfo, 'message' => $message]);
-    }
-
+    
     public function forgot_password(Request $request)
-    {   
+    {     
         if (DB::table('users')->where('email', $request->email)->exists()) {
             $userInfo = Auth::user();
             $userInfo = DB::table('users')->where('email', $request->email)->first();
-            return $this->setnewpassword($userInfo,"User exists");
+
+      
+    }
+        // dd($request->all());
+        if($userInfo != null)
+        {
+            MailController::sendForgotPassword($userInfo->first_name,$userInfo->email,$userInfo->verification_code);
+            return redirect()->back()->with('message','Please Check your email to set a new password!');
         }
-        else{
-            return redirect()->back()->with('message','Please enter a valid email');
-        }
+            
+        return redirect()->back()->with('error_message','Please enter a valid email');
+    }
+        
+    //     if (DB::table('users')->where('email', $request->email)->exists()) {
+    //         $userInfo = Auth::user();
+    //         $userInfo = DB::table('users')->where('email', $request->email)->first();
+    //         return $this->setnewpassword($userInfo,"Set a new password");
+    //     }
+    //     else{
+    //         return redirect()->back()->with('message','Please enter a valid email');
+    //     }
+    // }
+    
+    public function setnewpassword($userInfo,$message){
+        return view('pages.setnewpassword',['userInfo' => $userInfo, 'message' => $message]);
     }
     
     public function set_password(Request $request)
@@ -107,10 +132,12 @@ class MainController extends Controller
          'new_password'         => 'required|min:6|alphaNum|required_with:confirm_password',
          'confirm_password'     => 'required|min:6|same:new_password'
           ]);
-        $userInfo=User::find($request->id);
-        $userInfo->password=Hash::make($request->input('new_password'));
-        $userInfo->save();
-        return $this->setnewpassword($userInfo,"You have changed your password successfully!");
+
+          $userInfo=User::find($request->id);
+          $userInfo->password=Hash::make($request->input('new_password'));
+          $userInfo->save();
+          return redirect()->back()->with('message',"You have changed your password successfully!");
+
         // return redirect('main/successlogin')->with('message','You have changed your password successfully!');
     }
 
@@ -123,6 +150,20 @@ class MainController extends Controller
     {
      Auth::logout();
      return redirect('/main');
+    }
+
+    public function verify_user(Request $request)
+    {   
+        $verification_code=\Illuminate\Support\Facades\Request::get('code');
+        $user=User::where(['verification_code'=> $verification_code])->first();
+        // var_dump($user);
+        if($user != null)
+        {
+            $user->is_verified=1;
+            $user->save();
+            return $this->index()->with('message','Your Account is verified,Please Login!');
+        }
+        return $this->index()->with('error','Something went wrong,invalid verfication code');
     }
 }
 

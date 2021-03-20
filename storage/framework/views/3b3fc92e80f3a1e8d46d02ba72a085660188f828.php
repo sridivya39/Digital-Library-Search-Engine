@@ -40,9 +40,16 @@
   <br />
   <p class="heading">Set Password</p>
   <div class="container box">
-  <?php if($message): ?>
+  <?php if(session()->has('message')): ?>
     <div class="alert alert-success">
-        <?php echo e($message); ?>
+        <?php echo e(session()->get('message')); ?>
+
+    </div>
+  <?php endif; ?>
+
+  <?php if($message ?? ''): ?>
+    <div class="alert alert-success">
+     <?php echo e($message ?? ''); ?>
 
     </div>
   <?php endif; ?>
@@ -55,15 +62,20 @@
 
   <form action="<?php echo e(url('/main/set_password')); ?>" method="post">
    <?php echo csrf_field(); ?>
-   <input type="hidden" name="id" value="<?php echo e($userInfo->id); ?>" />
+    <input type="hidden" name="id" value="$userInfo->'id'" />
     <div class="form-group">
      <label>New Password</label>
      <input type="password" name="new_password" class="form-control" />
     </div>
+    <div id="passwordHelpBlock" class="form-text">
     <div class="form-group">
      <label>Confirm Password</label>
      <input type="password" name="confirm_password" class="form-control" />
     </div>
+    <div id="passwordHelpBlock" class="form-text">
+    Your password must be 6-20 characters long, can contain letters and numbers, and must not contain spaces, special characters, or emoji.
+    </div>
+    <br>
     <div class="form-group">
      <input type="submit" name="update" class="btn btn-primary" value="SET PASSWORD" style="font-weight:bold"/>
     </div>

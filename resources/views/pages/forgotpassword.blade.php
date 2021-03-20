@@ -40,10 +40,15 @@
   <br />
   <p class="heading">Forgot Password?</p>
   <div class="container box">
-
-@if(session()->has('message'))
-    <div class="alert alert-danger alert-block">
+  @if(session()->has('message'))
+    <div class="alert alert-success">
         {{ session()->get('message') }}
+    </div>
+@endif
+
+@if(session()->has('error_message'))
+    <div class="alert alert-danger alert-block">
+        {{ session()->get('error_message') }}
     </div>
  @endif
 

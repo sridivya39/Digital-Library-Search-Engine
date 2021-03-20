@@ -3,7 +3,11 @@
  <head>
   <!--<title>Simple Login System in Laravel</title>-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap" rel="stylesheet">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -46,7 +50,12 @@
   <br />
   <p class="heading">Login</p>
   <div class="container box">
+  <?php if(session()->has('message')): ?>
+    <div class="alert alert-success">
+        <?php echo e(session()->get('message')); ?>
 
+    </div>
+ <?php endif; ?>
     <?php if($message ?? ''): ?>
         <div class="alert alert-danger">
             <?php echo e($message); ?>
@@ -87,22 +96,11 @@
      <label>Enter Email</label>
      <input type="email" name="email" class="form-control" />
     </div>
+
     <div class="form-group">
      <label>Enter Password</label>
-     <script>
-    $(document).ready(function(){
-    $('#checkbox').on('change', function(){
-    $('#password').attr('type',$('#checkbox').prop('checked')==true?"text":"password"); 
-      });
-      });
-    </script>
-    <input type="password" id="password" class="form-control" />
-    <input type="checkbox" id="checkbox"> Show Password
+     <input type="password" name="password" class="form-control" data-toggle="password" />
     </div>
-    <!-- <div class="form-group">
-     <label>Enter Password</label>
-     <input type="password" name="password" class="form-control" />
-    </div> -->
     <div class="form-group row mb-0">
         <div class="col-md-8 offset-md-4">
             <button type="submit" class="btn btn-primary">
@@ -115,6 +113,9 @@
         </div>
     </div>
     <p class="Sign-up">Don't have an Account?<a href="\register"> Sign Up</a></p>
+    <script type="text/javascript">
+	$("#password").password('toggle');
+    </script>
     <!-- <div class="container">
         <div class="row">
             <div class="col-sm">

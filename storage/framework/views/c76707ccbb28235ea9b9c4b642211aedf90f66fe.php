@@ -98,7 +98,7 @@
                 <input type="submit" name="Submit" class="btn btn-primary" value="Submit" style="font-weight:bold" />
                      </div>
                      <div class="form-group" style="margin-left:20px;">
-                        <input type="submit" name="Submit" class="btn btn-primary" value="Advance Search" style="font-weight:bold" />
+                        <input type="submit" name="Submit" class="btn btn-primary" value="Advanced Search" style="font-weight:bold" />
                      </div> 
     </form>
    <br />

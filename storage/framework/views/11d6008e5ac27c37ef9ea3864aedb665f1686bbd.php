@@ -40,10 +40,16 @@
   <br />
   <p class="heading">Forgot Password?</p>
   <div class="container box">
-
-<?php if(session()->has('message')): ?>
-    <div class="alert alert-danger alert-block">
+  <?php if(session()->has('message')): ?>
+    <div class="alert alert-success">
         <?php echo e(session()->get('message')); ?>
+
+    </div>
+<?php endif; ?>
+
+<?php if(session()->has('error_message')): ?>
+    <div class="alert alert-danger alert-block">
+        <?php echo e(session()->get('error_message')); ?>
 
     </div>
  <?php endif; ?>

@@ -1,6 +1,53 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sail/compare/v1.4.0...1.x)
+## [Unreleased](https://github.com/laravel/sail/compare/v1.4.7...1.x)
+
+
+## [v1.4.7 (2021-03-09)](https://github.com/laravel/sail/compare/v1.4.6...v1.4.7)
+
+### Fixed
+- Add missing PostgreSQL clients ([#64(https://github.com/laravel/sail/pull/64))
+- Use latest expose container ([cebaebc](https://github.com/laravel/sail/commit/cebaebc0bb3806f4cf7bc71564acbfe8c12a8923))
+
+
+## [v1.4.6 (2021-03-03)](https://github.com/laravel/sail/compare/v1.4.5...v1.4.6)
+
+### Fixed
+- Update share command ([59ee7e2](https://github.com/laravel/sail/commit/59ee7e2b2efeb644eabea719186db91d11666733))
+
+
+## [v1.4.5 (2021-03-03)](https://github.com/laravel/sail/compare/v1.4.4...v1.4.5)
+
+### Fixes
+- Replace `DB_PORT` and `DB_CONNECTION` for pgsql ([#63](https://github.com/laravel/sail/pull/63))
+- Update share command ([0348ec8](https://github.com/laravel/sail/commit/0348ec8c13fedc4bafc917b9d65721cd475390bf))
+
+
+## [v1.4.4 (2021-03-02)](https://github.com/laravel/sail/compare/v1.4.3...v1.4.4)
+
+### Changed
+- Re-add memcached ([#62](https://github.com/laravel/sail/pull/62))
+
+### Fixed
+- Fix pgsql.stub volumes typo ([#60](https://github.com/laravel/sail/pull/60))
+
+
+## [v1.4.3 (2021-02-22)](https://github.com/laravel/sail/compare/v1.4.2...v1.4.3)
+
+### Changed
+- Update flag name ([0200ce6](https://github.com/laravel/sail/commit/0200ce6e0f697699bce036c42d91f1daab8039a8))
+
+
+## [v1.4.2 (2021-02-22)](https://github.com/laravel/sail/compare/v1.4.1...v1.4.2)
+
+### Changed
+- Removed comments ([a317a1a](https://github.com/laravel/sail/commit/a317a1af337ffc07c63ea5a4e04784fdb58ea9df))
+
+
+## [v1.4.1 (2021-02-23)](https://github.com/laravel/sail/compare/v1.4.0...v1.4.1)
+
+### Changed
+- Back out feature ([87c63c2](https://github.com/laravel/sail/commit/87c63c2956749f66e43467d4a730b917ef7428b7))
 
 
 ## [v1.4.0 (2021-02-23)](https://github.com/laravel/sail/compare/v1.3.1...v1.4.0)

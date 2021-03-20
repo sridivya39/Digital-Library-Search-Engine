@@ -3,8 +3,12 @@
  <head>
   <title>Sign up</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <style type="text/css">
@@ -44,7 +48,7 @@
     <div class="alert alert-success">
         {{ session()->get('message') }}
     </div>
-@endif
+  @endif
    <!-- @if(isset(Auth::user()->email))
     <script>window.location="/main/successlogin";</script>
    @endif -->
@@ -83,16 +87,20 @@
     </div>
     <div class="form-group">
      <label>Enter Old Password*</label>
-     <input type="password" name="password" class="form-control" />
+     <input type="password" name="password" class="form-control" data-toggle="password"  />
     </div>
     <div class="form-group">
      <label>Change Password</label>
-     <input type="password" name="new_password" class="form-control" />
+     <input type="password" name="new_password" class="form-control" data-toggle="password" aria-describedby="passwordHelpBlock"/>
     </div>
     <div class="form-group">
      <label>Confirm Password</label>
-     <input type="password" name="confirm_password" class="form-control" />
+     <input type="password" name="confirm_password" class="form-control" data-toggle="password" />
     </div>
+    <div id="passwordHelpBlock" class="form-text">
+    Your password must be 6-20 characters long, can contain letters and numbers, and must not contain spaces, special characters, or emoji.
+    </div>
+    <br>
     <div class="form-group">
      <input type="submit" name="update" class="btn btn-primary" value="UPDATE INFO" style="font-weight:bold"/>
      <p class="sign-up text-center"><a href="\main\successlogin"><b>Go to dashboard</b></a></p>
