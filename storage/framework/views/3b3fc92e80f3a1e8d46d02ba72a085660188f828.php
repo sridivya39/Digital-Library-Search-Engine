@@ -62,7 +62,7 @@
 
   <form action="<?php echo e(url('/main/set_password')); ?>" method="post">
    <?php echo csrf_field(); ?>
-    <input type="hidden" name="id" value="$userInfo->'id'" />
+    <input type="hidden" name="id" value="<?php echo e($user->id); ?>" />
     <div class="form-group">
      <label>New Password</label>
      <input type="password" name="new_password" class="form-control" />

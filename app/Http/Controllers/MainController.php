@@ -122,8 +122,10 @@ class MainController extends Controller
     //     }
     // }
     
-    public function setnewpassword($userInfo,$message){
-        return view('pages.setnewpassword',['userInfo' => $userInfo, 'message' => $message]);
+    public function setnewpassword(Request $request){
+        $verification_code=\Illuminate\Support\Facades\Request::get('code');
+        $user=User::where(['verification_code'=> $verification_code])->first();
+        return view('pages.setnewpassword',['user' => $user]);
     }
     
     public function set_password(Request $request)
@@ -166,5 +168,6 @@ class MainController extends Controller
         return $this->index()->with('error','Something went wrong,invalid verfication code');
     }
 }
+
 
 ?>
