@@ -85,10 +85,10 @@
      <label>Enter Email</label>
      <input type="email" name="email" class="form-control" value={{$userInfo->email}} />
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
      <label>Enter Old Password*</label>
      <input type="password" name="password" class="form-control" data-toggle="password"  />
-    </div>
+    </div> -->
     <div class="form-group">
      <label>Change Password</label>
      <input type="password" name="new_password" class="form-control" data-toggle="password" aria-describedby="passwordHelpBlock"/>

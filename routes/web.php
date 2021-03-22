@@ -67,5 +67,7 @@ Route::post('/main/checklogin','MainController@checklogin');
 Route::get('main/successlogin', 'MainController@successlogin');
 Route::get('main/logout', 'MainController@logout');
 Route::get('/data', function () {return view('projectdata');});
+Route::get('/search', function () {
+    return view('pages.serp');
 });
 ?>
