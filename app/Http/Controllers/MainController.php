@@ -122,9 +122,9 @@ class MainController extends Controller
     //     }
     // }
     
-    public function setnewpassword(Request $request){
-        $verification_code=\Illuminate\Support\Facades\Request::get('code');
-        $user=User::where(['verification_code'=> $verification_code])->first();
+    public function setnewpassword($email)
+    {
+        $user=User::where(['email' => $email])->first();
         return view('pages.setnewpassword',['user' => $user]);
     }
     

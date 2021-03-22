@@ -4,7 +4,7 @@ Hello {{$email_data['first_name']}} !!
 <br>
 Please Click the below link to change your password
 <br><br>
-<a href="{{ url('setnewpassword') }}">Click Here!</a>
+<a href="{{ url('setnewpassword/'.$email_data['email']) }}">Click Here!</a>
 
 <br><br>
 Thank you!!

@@ -55,7 +55,7 @@ Route::get('/index', function () {
         return view('pages.index');
    });
 
-Route::get('/setnewpassword', 'MainController@setnewpassword');
+Route::get('/setnewpassword/{email}', 'MainController@setnewpassword');
 
 Route::post('/main/set_password', 'MainController@set_password');
 
@@ -67,4 +67,5 @@ Route::post('/main/checklogin','MainController@checklogin');
 Route::get('main/successlogin', 'MainController@successlogin');
 Route::get('main/logout', 'MainController@logout');
 Route::get('/data', function () {return view('projectdata');});
+});
 ?>
