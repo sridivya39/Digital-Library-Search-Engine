@@ -1,4 +1,184 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+@stack("styles")
+<script
+src="https://code.jquery.com/jquery-3.5.1.js"
+integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+crossorigin="anonymous"></script>
+@stack("scripts")
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css"/>
+<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
+<style>
+mark{
+background: orange;
+color: black;
+}
+</style>
+<link href="{{ asset('css/app.css') }}" rel="stylesheet">
+</head>
+<!-- </style> -->
+<body>
+<div id="app">
+<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+<div class="container">
+<a class="navbar-brand" href="{{ url('/') }}">
+Digital Library
+<!-- {{ config('app.name', 'Digital Library') }} -->
+</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+<!-- Left Side Of Navbar -->
+<ul class="navbar-nav mr-auto">
+</ul>
+<!-- Right Side Of Navbar -->
+<!-- <ul class="navbar-nav ml-auto"> -->
+<ul class="navbar-nav ml-auto">
+<li class="nav-item">
+<a class="nav-link" href="{{ url('/save') }}">Saved Items</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="{{ url('/searchist') }}">Search History</a>
+</li>
+@guest
+@if (Route::has('login'))
+<li class="nav-item">
+<a class="nav-link" href="{{ route('MainController') }}">{{ __('Login') }}</a>
+</li>
+@endif
+@if (Route::has('register'))
+<li class="nav-item">
+<a class="nav-link" href="{{('/Signup') }}">{{ __('Register') }}</a>
+</li>
+@endif
+@else
+<!-- <li class="nav-item">
+<a class="nav-link" href="{{ url('/dissertations/saved') }}">Saved Item</a>
+</li> -->
+<!-- <li class="nav-item">
+<a class="nav-link" href="{{ url('/profile/saved') }}">Saved Item</a> -->
+<!-- </li> -->
+<li class="nav-item dropdown">
+<a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+{{ Auth::user()->name }}
+</a>
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+<!-- User Profile -->
+<!-- <a class="dropdown-item" href="{{ url('/profile') }}">Profile</a>
+<a class="dropdown-item" href="{{ url('/saved') }}">Saved Item</a> -->
+<!-- <a class="dropdown-item" href="{{ url('/profile') }}"
+onclick="event.preventDefault();
+document.getElementById('profile-form').submit();">
+Profile
+</a> -->
+<!-- Logout -->
+<a class="dropdown-item" href="{{ route('logout') }}"
+onclick="event.preventDefault();
+document.getElementById('logout-form').submit();">
+{{ __('Logout') }}
+</a>
+<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+<!-- <form id="profile-form" action="{{URL::to('/profile')}}" method="POST" class="d-none">
+-->
+@csrf
+</form>
+</div>
+</li>
+@endguest
+</ul>
+</div>
+</div>
+</nav>
+<main class="py-4">
+@yield('content')
+</main>
+</div>
+<form action="{{URL::to('/search')}}" method="POST" role="search">
+{{ csrf_field() }}
+<div class="form-box">
+<input type ="text" class="search" name="q" placeholder = "Search a book"> 
+<img onclick="startSearch()" src="//i.imgur.com/cHidSVu.gif" />
+<button class ="search-btn" type="submit"> Search</button>
+</form>
+<script type="text/javascript">
+  function startSearch() {
+
+    if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+      var recognition = new webkitSpeechRecognition();
+
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.lang = "en-US";
+      recognition.start();
+
+      recognition.onresult = function(e) {
+        document.getElementById('transcript').value
+                                 = e.results[0][0].transcript;
+        recognition.stop();
+        document.getElementById('q').submit();
+      };
+
+      recognition.onerror = function(e) {
+        recognition.stop();
+      }
+
+    }
+  }
+</script>
+
+
+</body>
+</div>
+<br>
+<br>
+<form action="{{URL::to('/main/process_advsearch')}}" method="POST">
+{{ csrf_field() }}
+<div class="form-box">
+<button class ="search-btn" type="submit"> Advanced Search</button>
+</form>
+<br>
+<br>
+<form action="{{URL::to('/uploadfile')}}" method="POST">
+{{ csrf_field() }} 
+<button class ="search-btn" type="submit"> Add New Data</button>
+</form> 
+</div>
+<br>
 <?php
+// require '/usr/local/var/elasticsearch/examples-elasticsearch/vendor/autoload.php';
+// require __DIR__.'../vendor/autoload.php';
+require '/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/vendor/autoload.php';
+// require 'vendor/autoload.php';
+// use Elasticsearch\ClientBuilder;
+$q = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $input ?? '');
+$client = Elasticsearch\ClientBuilder::create()
+//->setHosts($hosts)
+->build();
+// $hi = strip_tags($_POST[$q]);
+$query =[
+	'body' => [
+		'query' => [
+			'bool' => [
+			'should' => [
+				'match' => ['title' => $q]
+			]
+		]
+			]
+	]
+];
+
+
+// try{
+$response = $client->search($query ?? '');
+// $score = $response['hits']['hits'][0]['_score'];
+$total = $response['hits']['total']['value'];
 echo
 "<div>
 <b><i><p style='font-size: 15px;'>Total results found: $total</p></b></i>
@@ -17,7 +197,6 @@ echo
 <th>like</th>
 </thead>
 <tbody>';
-
 foreach( $response['hits']['hits'] as $source){
 $id = (isset($source['_id'])? $source['_id'] : "");
 $title= (isset($source['_source']['title'])? $source['_source']['title'] : "");

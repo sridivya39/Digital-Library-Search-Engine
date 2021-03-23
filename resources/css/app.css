@@ -1,0 +1,144 @@
+html, body {
+    background-color: black;
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+    height: 100vh;
+    margin: 0;
+}
+.header{
+height:100vh;
+left:50%;
+background-position: center;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:sans-serif;
+}
+h1
+{
+
+color:white;
+margin-bottom: 200px;
+margin-top:8px;
+font-size: 50px;
+letter-spacing: 2px;
+
+}
+
+.full-height {
+    height: 100vh;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-ref {
+    position: relative;
+}
+
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+    
+}
+
+.content {
+    text-align: center;
+}
+
+.title {
+    font-size: 100px;
+}
+
+.links > a {
+    color: white;
+    padding: 0 25px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+/* .m-b-md {
+    margin-bottom: 30px;
+} */
+.form-box .search{
+
+height:30px;
+width:80%;
+padding:15px 20px;
+border: none;
+border-radius:35px;
+font-weight:bold;
+outline:black;
+
+}
+
+.search-btn
+{
+height: 56px;
+width: 14%;
+padding:15px 15px;
+background: #ffeb3b;
+border: black;
+color: #000;
+/* position:relative; */
+cursor:pointer;
+border-radius: 25px;
+text-align:center;
+
+}
+.form-box .advsearch{
+
+height:30px;
+width:30%;
+padding:15px 20px;
+border: none;
+border-radius:35px;
+font-weight:bold;
+outline:black;
+
+}
+.advsearch-btn
+{ 
+position: absolute;
+top:150%;
+left: 35%;
+height: 36px;
+width: 34%;
+padding:5px;
+/* background: #ffeb3b; */
+border: black;
+color: #000;
+/* position:relative; */
+cursor:pointer;
+/* border-radius: 25px; */
+text-align:center;
+
+
+}
+.search-btn:hover{
+background: #ffc107;
+cursor: pointer;
+}
+
+.form-box
+{
+position: absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:none;
+max-width:500px;
+width:65%;
+padding:10px;
+border-radius: 5px;
+display:flex;
+justify-content: space-between;
+}

@@ -41,7 +41,7 @@
   <p class="heading">Search by Filters</p>
   <div class="container box">
   <!-- <h3 align="center">Simple Login System in Laravel</h3><br /> -->  
-   <!-- <form method="post" action="{{ url('/main/process_signup') }}">
+  <!-- <form method="post" action="{{ url('/main/process_signup') }}">
     {{ csrf_field() }} -->
     <form action="/search" method="POST" role="search">
     <div class="form-group">

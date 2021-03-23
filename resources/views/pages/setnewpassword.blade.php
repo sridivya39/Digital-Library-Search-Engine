@@ -37,7 +37,7 @@
   </style>
  </head>
  <body>
-  <br />
+  <br/>
   <p class="heading">Set Password</p>
   <div class="container box">
   @if(session()->has('message'))

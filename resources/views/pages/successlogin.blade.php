@@ -87,8 +87,7 @@
    @else
     <script>window.location = "/main";</script>
    @endif
-   <form action="/main/process_advsearch" method="post">
-   <!-- <form action="/search" method="POST" role="search"> -->
+   <form action="/search" method="POST" role="search">
     {{ csrf_field() }}
     <div class="input-group" style="margin:20px;">
         <input type="text" class="form-control" name="q"
@@ -96,11 +95,14 @@
             <div class="form-group" style="margin-left:20px;">
                 <input type="submit" name="Submit" class="btn btn-primary" value="Submit" style="font-weight:bold" />
                      </div>
+                     </form>
+                     <form action="/main/process_advsearch" method="POST">
+                     {{ csrf_field() }} 
                      <div class="form-group" style="margin-left:20px;">
                         <input type="submit" name="Submit" class="btn btn-primary" value="Advanced Search" style="font-weight:bold" />
                      </div> 
-    </form>
-   <br />
-  </div>
- </body>
+  
+  </form>
+</div>
+</body>
 </html>
