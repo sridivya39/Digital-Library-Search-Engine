@@ -18,9 +18,6 @@ use Illuminate\Support\Facades\Password;
 // Route::get('/', function () {
 //     return "<h1>Hello world</h1>";
 // });
-Route::get('/about', function () {
-    return view('pages.about');
-});
 // Route::get('/users/{id}',function($id)
 // {
 //     return "This is user " .$id;
@@ -41,7 +38,7 @@ Route::post('/main/process_update','MainController@process_update');
 
 Route::get('/main/verify', 'MainController@verify_user')->name('verify.user');
 
-Route::get('/register', function () {
+Route::get('/Signup', function () {
          return view('pages.register');
     });
 
@@ -67,7 +64,101 @@ Route::post('/main/checklogin','MainController@checklogin');
 Route::get('main/successlogin', 'MainController@successlogin');
 Route::get('main/logout', 'MainController@logout');
 Route::get('/data', function () {return view('projectdata');});
-Route::get('/search', function () {
-    return view('pages.serp');
+
+
+Route::post('/search', function (Request $request) {
+  $query_string = $request->get("q");
+  $q = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $query_string);
+
+    if ($query_string != "") {
+        $searchParams = [
+        'index' => 'projectdata',
+        'body' => [
+          'query' => [
+            'bool' =>[
+              'must' =>[
+                'multi_match' =>[
+                'query'=> $q,
+                'fields' => ['handle','contributor_author','title','type','subject','description_abstract','degree_grantor'.
+              'contributor_department','contributor_committeemember','contributor_committeechair','publisher']
+                  ]
+                ]
+              ]
+              ],
+        'size'=>1000
+        ]
+      ];
+      return view('pages.serp',["query_string"=>$query_string])->withquery($searchParams);
+    }
 });
+
+// Route::post('/search', function (Request $request) {
+//     $input = $request->get("q");
+//     $input1 = $request->get("submit");
+//     echo $input1;
+
+//     // $q=htmlspecialchars($input);
+//     $q = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $input);
+//     // echo($q);
+//     if ($input != "") {
+        
+//         $searchParams = [
+//         'index' => 'projectdata',
+//         'body' => [
+//           'query' => [
+//             'bool' =>[
+//               'must' =>[
+//                 'multi_match' =>[
+//                 'query'=> $q,
+//                 'fields' => ['handle','contributor_author','title','type','subject','description_abstract','degree_grantor'.
+//               'contributor_department','contributor_committeemember','contributor_committeechair','publisher']
+//                   ]
+//                 ]
+//               ]
+//               ],
+//         'size'=>1000
+//         ]
+//       ];
+//       return view('pages.serp',["sparam"=>$input])->withquery($searchParams);
+//     }
+//     else
+//     {
+//      $title = $request->get('title'); 
+//      $author = $request->get('author'); 
+//      $dept= $request->get('dept'); 
+//      $university = $request->get('university'); 
+//      $degree_name = $request->get('degree_name'); 
+
+      
+//       if ($title != "" || $author != "" || $dept != "" || $university != "" || $degree_name != "")
+//       {
+//         $advParams =  [
+//           'index' => 'projectdata',
+//           'body' => [
+//             'query' => [
+//               'bool' =>[
+//                 'must' =>[
+//                   'match' =>[
+//                   'title'=> $title ?? '',
+//                 ],
+//                 'match' =>[
+//                   'contributor_author'=> $author ?? '',
+//                 ],
+//                   ]
+//                 ]
+//               ],
+//           'size'=>50
+//           ]
+//         ];
+    
+//         return view('pages.serp',["sparam"=>$input])->withquery($advParams);
+//       }
+//       else
+//       {
+//         return redirect('/');
+//       }
+//     }
+//     return view('advancesearch');
+// });
+Auth::routes();
 ?>

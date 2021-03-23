@@ -53,10 +53,9 @@ li a {
  </head>
 
  <ul>
- <!-- <li><a href="sms://+14035550185?body=I%27m%20interested%20in%20your%20product.%20Please%20contact%20me.">Send a SMS message</a></li> -->
   <li><a href="/adv_search"><b>Advance Search</b></a></li>
   <li><a href="<?php echo e(URL::route('MainController')); ?>"><b>Login</b></a></li>
-  <li><a href="/register"><b>Register</b></a></li>
+  <li><a href=/Signup><b>Register</b></a></li>
 </ul>
 <p class="heading">Just Question</p>
 <div class="container box">
@@ -69,13 +68,6 @@ li a {
             <div class="form-group" style="margin-left:20px;">
                 <input type="submit" name="Submit" class="btn btn-primary" value="Submit" style="font-weight:bold" />
                      </div> 
-                     <!-- <div class="form-group" style="margin-left:20px;">
-                        <input type="submit" name="Submit" class="btn btn-primary" value="Advance Search" style="font-weight:bold" />
-                     </div>  -->
-            <!--<button type="submit" class="btn btn-default">
-                <span class="glyphicon glyphicon-search"></span>
-            </button>
-        </span>-->
     </div>
 </form>
 </div>

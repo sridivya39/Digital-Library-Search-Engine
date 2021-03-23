@@ -112,7 +112,7 @@
             </a>
         </div>
     </div>
-    <p class="Sign-up">Don't have an Account?<a href="\register"> Sign Up</a></p>
+    <p class="Sign-up">Don't have an Account?<a href=/Signup> Sign Up</a></p>
     <script type="text/javascript">
 	$("#password").password('toggle');
     </script>
