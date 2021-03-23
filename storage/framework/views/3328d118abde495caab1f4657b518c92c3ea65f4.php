@@ -1,7 +1,14 @@
+<?php $__env->startSection('content'); ?>
 <!DOCTYPE html>
-<html>
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
  <head>
   <title>Search</title>
+  <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <br>
+
+      
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
   <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -11,7 +18,6 @@
    .box{
     width:600px;
     margin-top:3%;
-    /* border:1px solid #ccc; */
    }
    body {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -35,36 +41,42 @@
     text-align:center;
     }
 </style>
- </head>
- <body>
-  <br />
-  <p class="heading">Search by Filters</p>
-  <div class="container box">
-  <!-- <h3 align="center">Simple Login System in Laravel</h3><br /> -->  
-  <!-- <form method="post" action="<?php echo e(url('/main/process_signup')); ?>">
-    <?php echo e(csrf_field()); ?> -->
-    <form action="/search" method="POST" role="search">
-    <div class="form-group">
-     <label>Keywords</label>
-     <input type="text" name="keywords" class="form-control" />
-    </div>
-    <div class="form-group">
-     <label>Author Name</label>
-     <input type="text" name="Author Name" class="form-control" />
-    </div>
-    <div class="form-group">
+</head>
+
+<body>
+   <p class="heading">Search by Filters</p>
+   <div class="container box">
+   <form action="<?php echo e(URL::to('/search')); ?>" method="post" role="search">
+      <?php echo e(csrf_field()); ?>
+
+      <div class="form-group">
      <label>Title</label>
      <input type="text" name="Title" class="form-control" />
-    </div>
-    <br>
-    <div class="form-group">
-    <input type="text" class="form-control" name="q"
-    placeholder="Search"> <span class="input-group-btn">
-    </div>
+     </div>
+     <br>
+     <div class="form-group">
+     <label>Author</label>
+     <input type="text" name="Author" class="form-control" />
+     </div>
+     <br>
+      <div class="form-group">
+     <label>University</label>
+     <input type="text" name="University" class="form-control" />
+     </div>
+     <br>
+     <div class="form-group">
+     <label>Name of the Degree</label>
+     <input type="text" name="Name of the Degree" class="form-control" />
+     </div>
+      <br>
+      <div class="form-group">
+     <label>Department</label>
+     <input type="text" name="Department" class="form-control" />
+     </div> 
     <input type="submit" name="Submit" class="btn btn-primary" value="Submit" style="font-weight:bold" />
     </div>
-    </form>
-  </div>
- </body>
+   </form>
+   </div>
+</body>
 </html>
  <?php /**PATH /Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/blog/resources/views/pages/advancesearch.blade.php ENDPATH**/ ?>

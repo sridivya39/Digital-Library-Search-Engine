@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Password;
 //Route::get('/uploadfile','UploadfileController@index'); 
 //Route::get('/uploadfile','UploadfileController@upload'); 
 Route::get('/about', function () {
-  return view('pages.about');
+  return view('pages.check');
 });
 
 Route::get('/main', [
@@ -49,7 +49,7 @@ Route::get('/Signup', function () {
 Route::get('/adv_search', function () {
     return view('pages.login')->with('message','You need an account to access Advance Search!');
 });
-Route::post('/main/process_advsearch','MainController@process_advsearch');
+Route::post('/process_advsearch','MainController@process_advsearch');
 Route::post('/main/process_signup','MainController@process_signup');
 
 Route::get('/index', function () {
@@ -94,45 +94,42 @@ Route::post('/search', function (Request $request) {
       ];
       return view('pages.serp',["query_string"=>$query_string])->withquery($searchParams);
     }
-    else
-    {
-     $title = $request->get('title'); 
-     $author = $request->get('author'); 
-     $dept= $request->get('dept'); 
-     $university = $request->get('university'); 
-     $degree_name = $request->get('degree_name'); 
-
-      
-      if ($title != "" || $author != "" || $dept != "" || $university != "" || $degree_name != "")
-      {
-        $advParams =  [
-          'index' => 'projectdata',
-          'body' => [
-            'query' => [
-              'bool' =>[
-                'must' =>[
-                  'match' =>[
-                  'title'=> $title ?? '',
-                ],
-                'match' =>[
-                  'contributor_author'=> $author ?? '',
-                ],
+    else{
+        $title = $request->get('Title'); 
+        $author = $request->get('Author'); 
+        $dept= $request->get('Department'); 
+        $university = $request->get('University'); 
+        $degree_name = $request->get('Name of the Degree');
+         
+         if ($title != "" || $author != "" || $dept != "" || $university != "" || $degree_name != "")
+         {
+           $advParams =  [
+            'index' => 'projectdata',
+            'body' => [
+              'query' => [
+                'bool' => [
+                  'must' => [
+                    'match' => [
+                      'title' => $title ?? '',
+                    ],
+                    'match' => [
+                      'contributor_author' => $author ?? '',
+                    ],
                   ]
                 ]
               ],
-          'size'=>50
-          ]
-        ];
-    
-        return view('pages.serp',["query_string"=>$query_string])->withquery($advParams);
-      }
-      else
-      {
-        return redirect('/');
-      }
+              'size' => 50
+            ]
+          ];
+       
+           return view('pages.advserp',["query_string"=>$query_string])->withquery($advParams);
+         }
+         else
+         {
+           return redirect('/');
+         }
     }
-    return view('advancesearch');
-
+    return view('pages.advancesearch');
 });
 
 Auth::routes();

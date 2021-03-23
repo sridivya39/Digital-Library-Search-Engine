@@ -106,6 +106,7 @@
     echo
     "<div>
     <b><i><p style='font-size: 15px;'>Total results found: $total</p></b></i>
+    <b><i><p style='font-size: 15px;'>Searched for: $hi </p></b></i>
     </div>";
     echo 
     '<table class="table table-stripped" id="dt1">

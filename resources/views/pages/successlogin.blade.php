@@ -90,18 +90,17 @@
    <form action="/search" method="POST" role="search">
     {{ csrf_field() }}
     <div class="input-group" style="margin:20px;">
-        <input type="text" class="form-control" name="q"
-            placeholder="Search"> <span class="input-group-btn">
-            <div class="form-group" style="margin-left:20px;">
-                <input type="submit" name="Submit" class="btn btn-primary" value="Submit" style="font-weight:bold" />
-                     </div>
-                     </form>
-                     <form action="/main/process_advsearch" method="POST">
-                     {{ csrf_field() }} 
-                     <div class="form-group" style="margin-left:20px;">
-                        <input type="submit" name="Submit" class="btn btn-primary" value="Advanced Search" style="font-weight:bold" />
-                     </div> 
-  
+    <input type="text" class="form-control" name="q"
+        placeholder="Search"> <span class="input-group-btn">
+    <div class="form-group" style="margin-left:20px;">
+        <input type="submit" name="Submit" class="btn btn-primary" value="Submit" style="font-weight:bold" />
+    </div>
+  </form>
+  <form action="/process_advsearch" method="POST">
+    {{ csrf_field() }} 
+    <div class="form-group" style="margin-left:20px;">
+        <input type="submit" name="Submit" class="btn btn-primary" value="Advanced Search" style="font-weight:bold" />
+    </div>
   </form>
 </div>
 </body>

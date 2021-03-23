@@ -102,7 +102,6 @@ class MainController extends Controller
 
       
     }
-        // dd($request->all());
         if($userInfo != null)
         {
             MailController::sendForgotPassword($userInfo->first_name,$userInfo->email,$userInfo->verification_code);
@@ -111,16 +110,6 @@ class MainController extends Controller
             
         return redirect()->back()->with('error_message','Please enter a valid email');
     }
-        
-    //     if (DB::table('users')->where('email', $request->email)->exists()) {
-    //         $userInfo = Auth::user();
-    //         $userInfo = DB::table('users')->where('email', $request->email)->first();
-    //         return $this->setnewpassword($userInfo,"Set a new password");
-    //     }
-    //     else{
-    //         return redirect()->back()->with('message','Please enter a valid email');
-    //     }
-    // }
     
     public function setnewpassword($email)
     {
@@ -139,8 +128,6 @@ class MainController extends Controller
           $userInfo->password=Hash::make($request->input('new_password'));
           $userInfo->save();
           return redirect()->back()->with('message',"You have changed your password successfully!");
-
-        // return redirect('main/successlogin')->with('message','You have changed your password successfully!');
     }
 
     public function process_advsearch(Request $request)
@@ -158,7 +145,6 @@ class MainController extends Controller
     {   
         $verification_code=\Illuminate\Support\Facades\Request::get('code');
         $user=User::where(['verification_code'=> $verification_code])->first();
-        // var_dump($user);
         if($user != null)
         {
             $user->is_verified=1;
