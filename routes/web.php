@@ -103,25 +103,24 @@ Route::post('/search', function (Request $request) {
          
          if ($title != "" || $author != "" || $dept != "" || $university != "" || $degree_name != "")
          {
-           $advParams =  [
+          $advParams =  [
             'index' => 'projectdata',
             'body' => [
               'query' => [
-                'bool' => [
-                  'must' => [
-                    'match' => [
-                      'title' => $title ?? '',
-                    ],
-                    'match' => [
-                      'contributor_author' => $author ?? '',
-                    ],
+                'bool' =>[
+                  'must' =>[
+                    'match' =>[
+                    'title'=> $title ?? '',
+                  ],
+                  'match' =>[
+                    'contributor_author'=> $author ?? '',
+                  ],
+                    ]
                   ]
-                ]
-              ],
-              'size' => 50
+                ],
+            'size'=>50
             ]
           ];
-       
            return view('pages.advserp',["query_string"=>$query_string])->withquery($advParams);
          }
          else

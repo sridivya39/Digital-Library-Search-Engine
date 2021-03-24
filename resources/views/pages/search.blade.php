@@ -65,10 +65,7 @@ li a {
             <div class="form-group" style="margin-left:20px;">
                 <input type="submit" name="Submit" class="btn btn-primary" value="Submit" style="font-weight:bold" />
                      </div> 
-            <!--<button type="submit" class="btn btn-default">
-                <span class="glyphicon glyphicon-search"></span>
-            </button>
-        </span>-->
+                     
     </div>
 </form>
 </div>

@@ -17,7 +17,7 @@
 .box{
     width:1200px;
     margin-top:10%;
-    /* border:1px solid #ccc; */
+    
    }
    .btn-primary {
     color: #82375d;

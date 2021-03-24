@@ -15,7 +15,6 @@
    .box{
     width:600px;
     margin-top:3%;
-    /* border:1px solid #ccc; */
    }
    body {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -49,28 +48,13 @@
         {{ session()->get('message') }}
     </div>
   @endif
-   <!-- @if(isset(Auth::user()->email))
-    <script>window.location="/main/successlogin";</script>
-   @endif -->
-
    @if ($message = Session::get('error'))
    <div class="alert alert-danger alert-block">
     <button type="button" class="close" data-dismiss="alert">×</button>
     <strong>{{ $message }}</strong>
    </div>
    @endif
-
-   <!-- @if (count($errors) > 0)
-    <div class="alert alert-danger">
-     <ul>
-     @foreach($errors->all() as $error)
-      <li>{{ $error }}</li>
-     @endforeach
-     </ul>
-    </div>
-   @endif -->
-  <!-- <h3 align="center">Simple Login System in Laravel</h3><br /> -->  
-  <form action="/main/process_update" method="post">
+   <form action="/main/process_update" method="post">
    @csrf
    <input type="hidden" name="id" value="{{$userInfo['id']}}" />
     <div class="form-group">
@@ -85,17 +69,13 @@
      <label>Enter Email</label>
      <input type="email" name="email" class="form-control" value={{$userInfo->email}} />
     </div>
-    <!-- <div class="form-group">
-     <label>Enter Old Password*</label>
-     <input type="password" name="password" class="form-control" data-toggle="password"  />
-    </div> -->
     <div class="form-group">
      <label>Change Password</label>
-     <input type="password" name="new_password" class="form-control" data-toggle="password" aria-describedby="passwordHelpBlock"/>
+     <input type="password" name="new_password" class="form-control"/>
     </div>
     <div class="form-group">
      <label>Confirm Password</label>
-     <input type="password" name="confirm_password" class="form-control" data-toggle="password" />
+     <input type="password" name="confirm_password" class="form-control"/>
     </div>
     <div id="passwordHelpBlock" class="form-text">
     Your password must be 6-20 characters long, can contain letters and numbers, and must not contain spaces, special characters, or emoji.
@@ -109,4 +89,7 @@
   </div>
  </body>
 </html>
+
+    
+  
  

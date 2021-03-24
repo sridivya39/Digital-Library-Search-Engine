@@ -17,7 +17,7 @@
 .box{
     width:1200px;
     margin-top:10%;
-    /* border:1px solid #ccc; */
+
    }
    .btn-primary {
     color: #82375d;
@@ -58,15 +58,7 @@
                 </form> 
                 </div> 
     </div>
-  <!-- <form action="<?php echo e(URL::to('/adv_search')); ?>" method="GET">
-  <?php echo e(csrf_field()); ?>
 
-  <br>
-  <div class="form-group" style="margin-left:20px;">
-                <input type="submit" name="Advanced Search" class="btn btn-primary" value="Advanced Search" style="font-weight:bold" />
-                     </form> 
-                     </div> 
-  <br> -->
   <form action="<?php echo e(URL::to('/uploadfile')); ?>" method="POST">
   <?php echo e(csrf_field()); ?> 
   <div class="form-group" style="margin-left:20px;">
@@ -79,7 +71,6 @@
   require '/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/vendor/autoload.php';
   $q = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $query_string);
   $client = Elasticsearch\ClientBuilder::create()->build();
-//   $hi = strip_tags($_POST['q']);
   $params = [
     'index' => 'projectdata',
     'body' => [
@@ -87,9 +78,9 @@
         'bool' => [
           'must' => [
             'multi_match' => [
-              'query' =>
-              $q ?? '',
-              'fields' => ['title', 'degree_name', 'contributor_author', 'degree_level', 'description_abstract', 'publisher', 'type', 'contributor_department', 'identifier_uri', 'relation_haspart']
+              'query' => $q,
+              'fields' => ['handle','contributor_author','title','type','subject','description_abstract','degree_grantor'.
+              'contributor_department','contributor_committeemember','contributor_committeechair','publisher']
             ]
           ]
         ]
@@ -108,6 +99,7 @@
     echo
     "<div>
     <b><i><p style='font-size: 15px;'>Total results found: $total</p></b></i>
+    
     </div>";
     echo 
     '<table class="table table-stripped" id="dt1">
