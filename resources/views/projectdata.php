@@ -9,8 +9,7 @@ $extension="json";
 // $folder_name=11042;
 
 $main_dir= new RecursiveDirectoryIterator('/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/');
-// $path = '/Users/anuradhamantena/WP/dissertation/';
-// $c=0;
+
 foreach (new RecursiveIteratorIterator($main_dir) as $key => $folder_name) {
 
     $ext = pathinfo($folder_name, PATHINFO_EXTENSION);
