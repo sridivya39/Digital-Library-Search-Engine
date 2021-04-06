@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
   <meta charset="utf-8">
@@ -14,6 +13,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap" rel="stylesheet">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style type="text/css">
+mark{
+background: white;
+color: #82375d;
+}
 .box{
     width:1200px;
     margin-top:10%;
@@ -41,11 +44,31 @@
     font-size:100px;
     text-align:center;
     }
+    .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+      color: #d9edf7;
+    }
+    .dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: #e8e6e6;
+    color: #82375d;
+    margin-left: 3px;
+}
+    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+    background-color: #82375d;
+    }
+
   </style>
  </head>
   <br />
-  <p class="heading">Just Question</p>
+<p class="heading">Just Question</p>
 <body>
+
 <div class="container box">
 <form action="/search" method="POST" role="search">
     {{ csrf_field() }}
@@ -65,11 +88,12 @@
   </form> 
   </div>
 </body>
-  <div class="container box">
+ <div class="container box">
 <?php
   require '/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/vendor/autoload.php';
   $q = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $query_string);
   $client = Elasticsearch\ClientBuilder::create()->build();
+  // $hi = strip_tags($_POST['q']);
   $params = [
     'index' => 'projectdata',
     'body' => [
@@ -84,15 +108,17 @@
           ]
         ]
       ],
-      'size' => 100
+      'size' => 1000
     ]
   ];
 
   $response = $client->search($query);
   $total = $response['hits']['total']['value'];
+  
   if ($total == 0){
     echo '<script>alert("Not a valid Search")</script>';
-  }else{
+  }
+  else{
     $score = $response['hits']['hits'][0]['_score'];
 
     echo
@@ -104,9 +130,6 @@
     '<table class="table table-stripped" id="dt1">
     <thead>
     <th>Title</th>
-    <th>Author</th>
-    <th>University</th>
-    <th>Publisher</th>
     </thead>
     <tbody>';
 
@@ -132,30 +155,32 @@
       }
       
       echo "<tr>
-      <td>".$title."<a role='button' class='btn btn-link' href='".$lsourceURL."' target='_blank'>Click for more details</a></td>
-      <td>".$lauthor."</td>
-      <td>".$ldeg."</td>
-      <td>".$lpublisher."</td>";
+      <td>".$title."<a role='button' class='btn btn-link' href='".$lsourceURL."' target='_blank'>Click for more details</a>
+      <a role='button' class='btn btn-link' href='/summary' target='_blank'>Summary</a></td>
+      </td>";
       ?>
-      
       <?php
       echo"</tr>";
       
       }
       echo "</tbody></table>";
-  }
-?>
+    
+    }
+    ?>
+    
 </div>
 
 <script src="https://cdn.jsdelivr.net/mark.js/7.0.0/jquery.mark.min.js"></script>
 <script>
 $(document).ready( function () {
-var table = $('#dt1').DataTable( {
-"initComplete": function( settings, json ) {
-$("body").unmark().mark("{{$query_string}}"); 
-}
-});
-table.on( 'draw.dt', function () {
-$("body").unmark().mark("{{$query_string}}");
-} ); 
+  var table = $('#dt1').DataTable( {
+    "initComplete": function( settings, json ) {
+    $("body").unmark().mark("{{$query_string}}"); 
+    }
+  });
+  table.on( 'draw.dt', function () {
+    $("body").unmark().mark("{{$query_string}}");
+  }); 
 } );
+
+</script>

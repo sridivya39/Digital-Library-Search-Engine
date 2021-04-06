@@ -48,12 +48,12 @@ Digital Library
 @guest
 @if (Route::has('login'))
 <li class="nav-item">
-<a class="nav-link" href="{{ route('MainController') }}">{{ __('Login') }}</a>
+<a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
 </li>
 @endif
 @if (Route::has('register'))
 <li class="nav-item">
-<a class="nav-link" href="{{('/Signup') }}">{{ __('Register') }}</a>
+<a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
 </li>
 @endif
 @else
@@ -107,28 +107,21 @@ document.getElementById('logout-form').submit();">
 </form>
 <script type="text/javascript">
   function startSearch() {
-
     if (window.hasOwnProperty('webkitSpeechRecognition')) {
-
       var recognition = new webkitSpeechRecognition();
-
       recognition.continuous = false;
       recognition.interimResults = false;
-
       recognition.lang = "en-US";
       recognition.start();
-
       recognition.onresult = function(e) {
         document.getElementById('transcript').value
                                  = e.results[0][0].transcript;
         recognition.stop();
         document.getElementById('q').submit();
       };
-
       recognition.onerror = function(e) {
         recognition.stop();
       }
-
     }
   }
 </script>
@@ -138,7 +131,7 @@ document.getElementById('logout-form').submit();">
 </div>
 <br>
 <br>
-<form action="{{URL::to('/main/process_advsearch')}}" method="POST">
+<form action="{{URL::to('/advanced_search')}}" method="POST">
 {{ csrf_field() }}
 <div class="form-box">
 <button class ="search-btn" type="submit"> Advanced Search</button>
@@ -157,36 +150,40 @@ document.getElementById('logout-form').submit();">
 require '/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/vendor/autoload.php';
 // require 'vendor/autoload.php';
 // use Elasticsearch\ClientBuilder;
-$q = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $input ?? '');
 $client = Elasticsearch\ClientBuilder::create()
 //->setHosts($hosts)
 ->build();
-// $hi = strip_tags($_POST[$q]);
-$query =[
-	'body' => [
-		'query' => [
-			'bool' => [
-			'should' => [
-				'match' => ['title' => $q]
-			]
-		]
-			]
-	]
+$hi = strip_tags($_POST['q']);
+$params = [
+'index' => 'projectdata',
+// "id" => "vXVDbXUB4eFHAaQOxlg-",
+'body' => [
+'query'=> [
+'bool' => [
+'must' => [
+'multi_match' => [
+'query' => 
+$q ?? '',
+'fields' => ['title', 'degree_name', 'contributor_author','degree_level', 'description_abstract','publisher','type','contributor_department','identifier_uri','relation_haspart']
+]
+]
+]
+],
+'size'=> 100
+]
 ];
-
-
 // try{
-$response = $client->search($query ?? '');
-// $score = $response['hits']['hits'][0]['_score'];
+$response = $client->search($query);
+$score = $response['hits']['hits'][0]['_score'];
 $total = $response['hits']['total']['value'];
-echo
-"<div>
+echo"
+<div>
 <b><i><p style='font-size: 15px;'>Total results found: $total</p></b></i>
-
+<b><i><p style='font-size: 15px;'>Searched for: $hi </p></b></i>
 </div>"
 ;
-echo 
-'<table class="table table-stripped" id="dt1">
+echo '
+<table class="table table-stripped" id="dt1">
 <thead>
 <th>Title</th>
 <th>Author</th>
@@ -207,7 +204,6 @@ $lsourceURL = (isset($source['_source']['identifier_uri']) ? $source['_source'][
 $lhnum = (isset($source['_source']['handle']) ? $source['_source']['handle'] : ""); 
 $lpdf = (isset($source['_source']['relation_haspart']) ? $source['_source']['relation_haspart'] : ""); 
 $labs = (isset($source['_source']['description_abstract']) ? $source['_source']['description_abstract'] : ""); 
-
 // if (is_array($lpdf)) 
 // {
 //     $lpdf1 = $lpdf[0];
@@ -215,7 +211,7 @@ $labs = (isset($source['_source']['description_abstract']) ? $source['_source'][
 // else {
 //   $lpdf1=$lpdf;
 // }
-    $path = "/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation".$lhnum."/";
+	$path = "/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/".$lhnum."/";
     $dir =scandir($path);
 foreach($dir as $file){
     $fname=$path.$file;
@@ -224,8 +220,6 @@ if(mime_content_type($fname)=='application/pdf')
 {
     $name="/dissertation/".$lhnum."/".$file;
 }
-
-
 echo "<tr>
 <td>".$title."<a role='button' class='btn btn-link' href='".$lsourceURL."' target='_blank'>Click for more details</a></td>
 <td>".$lauthor."</td>
@@ -241,23 +235,20 @@ echo "<tr>
 
 <?php
 echo"</tr>";
-
 }
 echo "</tbody></table>";
-
-
-// $doc = $response['hits']['hits'][0]['_source']['title'];
+$doc = $response['hits']['hits'][0]['_source']['title'];
 ?>
 <script src="https://cdn.jsdelivr.net/mark.js/7.0.0/jquery.mark.min.js"></script>
 <script>
 $(document).ready( function () {
 var table = $('#dt1').DataTable( {
 "initComplete": function( settings, json ) {
-$("body").unmark().mark("{{$param ?? ''}}"); 
+$("body").unmark().mark("{{$query_string}}"); 
 }
 });
 table.on( 'draw.dt', function () {
-$("body").unmark().mark("{{$param ?? ''}}");
+$("body").unmark().mark("{{$query_string}}");
 } ); 
 } );
 $(document).on("click", ".saved", function(e) {
@@ -289,7 +280,6 @@ $('.like').on('click', function(){
     }, 
   }); 
 }) 
-
 function myFunction() {
     document.getElementById("demo").style.color = "Red";
     // document.getElementById("demo").style.text = "liked";

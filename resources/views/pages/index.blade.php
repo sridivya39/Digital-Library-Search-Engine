@@ -58,15 +58,41 @@ li a {
   <li><a href=/Signup><b>Register</b></a></li>
 </ul>
 <p class="heading">Just Question</p>
+<script>
+var recognition = new webkitSpeechRecognition();
+
+recognition.onresult = function(event) { 
+  var saidText = "";
+  for (var i = event.resultIndex; i < event.results.length; i++) {
+    if (event.results[i].isFinal) {
+      saidText = event.results[i][0].transcript;
+    } else {
+      saidText += event.results[i][0].transcript;
+    }
+  }
+  // Update Textbox value
+  document.getElementById('speechText').value = saidText;
+ 
+  // Search Posts
+  searchPosts(saidText);
+}
+
+function startRecording(){
+  recognition.start();
+}
+
+</script>
 <div class="container box">
 <form action="/search" method="POST" role="search">
     {{ csrf_field() }}
     <div class="input-group" style="margin:20px;">
-        <input type="text" class="form-control" name="q"
+        <input type="text" class="form-control" name="q"  id='speechText'
             placeholder="Search"> <span class="input-group-btn">
             <div class="form-group" style="margin-left:20px;">
-                <input type="submit" name="Submit" class="btn btn-primary" value="Submit" style="font-weight:bold" />
-                     </div> 
+                <input type="submit" name="Submit" class="btn btn-primary" value="Submit" style="font-weight:bold" /> 
+                <input type='button' id='start' value='Speak' class="btn btn-primary" style="font-weight:bold" onclick='startRecording();'>
+                </form> 
+                </div> 
     </div>
 </form>
 </div>

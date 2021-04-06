@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+  <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
+  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
   <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap" rel="stylesheet">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style type="text/css">
+mark{
+background: white;
+color: #82375d;
+}
 .box{
     width:1200px;
     margin-top:10%;
     
    }
-   .btn-primary {
+.btn-primary {
     color: #82375d;
     background-color: #e8e6e6;
     border-color: #999;
@@ -41,22 +44,90 @@
     font-size:100px;
     text-align:center;
     }
-  </style>
- </head>
-  <br />
-  <p class="heading">Just Question</p>
+    .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+      color: #d9edf7;
+    }
+    .dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: #e8e6e6;
+    color: #82375d;
+    margin-left: 3px;
+}
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: white;
+    color: #82375d;
+    padding: 4px;
+}
+    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+    background-color: #82375d;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+    box-sizing: border-box;
+    display: inline-block;
+    min-width: 1.5em;
+    padding: 0.5em 1em;
+    margin-left: 2px;
+    text-align: center;
+    text-decoration: none !important;
+    cursor: pointer;
+    cursor: hand;
+    color: white;
+    background-color: #82375d;
+    border: 1px solid transparent;
+    border-radius: 2px;
+}
+</style>
+</head>
+<br />
+<p class="heading">Just Question</p>
 <body>
+<script>
+var recognition = new webkitSpeechRecognition();
+
+recognition.onresult = function(event) { 
+  var saidText = "";
+  for (var i = event.resultIndex; i < event.results.length; i++) {
+    if (event.results[i].isFinal) {
+      saidText = event.results[i][0].transcript;
+    } else {
+      saidText += event.results[i][0].transcript;
+    }
+  }
+  // Update Textbox value
+  document.getElementById('speechText').value = saidText;
+ 
+  // Search Posts
+  searchPosts(saidText);
+}
+
+function startRecording(){
+  recognition.start();
+}
+
+</script>
+
 <div class="container box">
 <form action="/search" method="POST" role="search">
     {{ csrf_field() }}
     <div class="input-group" style="margin:20px;">
-        <input type="text" class="form-control" name="q"
+        <input type="text" class="form-control" name="q"  id='speechText'
             placeholder="Search"> <span class="input-group-btn">
             <div class="form-group" style="margin-left:20px;">
-                <input type="submit" name="Submit" class="btn btn-primary" value="Submit" style="font-weight:bold" />
+                <input type="submit" name="Submit" class="btn btn-primary" value="Submit" style="font-weight:bold" /> 
+                <input type='button' id='start' value='Speak' class="btn btn-primary" style="font-weight:bold" onclick='startRecording();'>
                 </form> 
                 </div> 
     </div>
+
   <form action="{{URL::to('/adv_search')}}" method="GET">
   {{ csrf_field() }}
   <br>
@@ -65,14 +136,15 @@
                      </form> 
                      </div> 
   <br>
-  <form action="{{URL::to('/uploadfile')}}" method="POST">
+  <form action="{{URL::to('/uploadfile')}}" method="GET">
   {{ csrf_field() }} 
   <div class="form-group" style="margin-left:20px;">
                 <input type="submit" name="Add new Data" class="btn btn-primary" value="Add new Data" style="font-weight:bold" />
   </form> 
   </div>
 </body>
-  <div class="container box">
+
+<div class="container box">
 <?php
   require '/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/vendor/autoload.php';
   $q = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $query_string);
@@ -92,7 +164,7 @@
           ]
         ]
       ],
-      'size' => 100
+      'size' => 1000
     ]
   ];
 
@@ -100,7 +172,8 @@
   $total = $response['hits']['total']['value'];
   if ($total == 0){
     echo '<script>alert("Not a valid Search")</script>';
-  }else{
+  }
+  else{
     $score = $response['hits']['hits'][0]['_score'];
 
     echo
@@ -112,9 +185,7 @@
     '<table class="table table-stripped" id="dt1">
     <thead>
     <th>Title</th>
-    <th>Author</th>
-    <th>University</th>
-    <th>Publisher</th>
+    <th>Download</th>
     </thead>
     <tbody>';
 
@@ -128,42 +199,54 @@
       $lhnum = (isset($source['_source']['handle']) ? $source['_source']['handle'] : ""); 
       $lpdf = (isset($source['_source']['relation_haspart']) ? $source['_source']['relation_haspart'] : ""); 
       $labs = (isset($source['_source']['description_abstract']) ? $source['_source']['description_abstract'] : ""); 
+      $dept = (isset($source['_source']['contributor_department']) ? $source['_source']['contributor_department'] : ""); 
       
       $path = "/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/".$lhnum."/";
+    
       $dir =scandir($path);
       foreach($dir as $file){
-          $fname=$path.$file;
+      $fname=$path.$file;
       }
-      if(mime_content_type($fname)=='application/pdf')
-      {
-          $name="/dissertation/".$lhnum."/".$file;
-      }
+    if(mime_content_type($fname)=='application/pdf')
+    {
+        $name="/dissertation/".$lhnum."/".$file;
+    }
+    
       
       echo "<tr>
-      <td>".$title."<a role='button' class='btn btn-link' href='".$lsourceURL."' target='_blank'>Click for more details</a></td>
-      <td>".$lauthor."</td>
-      <td>".$ldeg."</td>
-      <td>".$lpublisher."</td>";
-      ?>
-      
-      <?php
+      <td>".$title."
+      <br>
+      <br>
+      <a role='button' class='btn btn-link' href='".$lsourceURL."' target='_blank'>Click for more details</a> <a role='button' class='btn btn-link' href='/summary' target='_blank'>Summary</a></td>
+      <td><a href= $name class='btn btn-link' target='_blank' download>Download</a>
+
+      </td>";
+    ?>
+  
+
+    <?php
       echo"</tr>";
       
       }
       echo "</tbody></table>";
-  }
-?>
+    
+    }
+
+    ?>
+    
 </div>
 
 <script src="https://cdn.jsdelivr.net/mark.js/7.0.0/jquery.mark.min.js"></script>
 <script>
 $(document).ready( function () {
-var table = $('#dt1').DataTable( {
-"initComplete": function( settings, json ) {
-$("body").unmark().mark("{{$query_string}}"); 
-}
-});
-table.on( 'draw.dt', function () {
-$("body").unmark().mark("{{$query_string}}");
-} ); 
+  var table = $('#dt1').DataTable( {
+    "initComplete": function( settings, json ) {
+    $("body").unmark().mark("{{$query_string}}"); 
+    }
+  });
+  table.on( 'draw.dt', function () {
+    $("body").unmark().mark("{{$query_string}}");
+  }); 
 } );
+
+</script>

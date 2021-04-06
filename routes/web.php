@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Password;
 //Route::get('/uploadfile','UploadfileController@index'); 
 //Route::get('/uploadfile','UploadfileController@upload'); 
 Route::get('/about', function () {
-  return view('pages.check');
+  return view('pages.about');
 });
 
 Route::get('/main', [
@@ -45,6 +45,14 @@ Route::get('/main/verify', 'MainController@verify_user')->name('verify.user');
 Route::get('/Signup', function () {
          return view('pages.register');
     });
+
+Route::get('/uploadfile', function () {
+      return view('pages.upload');
+    });
+
+Route::get('/add', function () {
+  return view('pages.upload')->with('message','Your data has been indexed !');
+});
 
 Route::get('/adv_search', function () {
     return view('pages.login')->with('message','You need an account to access Advance Search!');
@@ -92,7 +100,9 @@ Route::post('/search', function (Request $request) {
         'size'=>1000
         ]
       ];
+
       return view('pages.serp',["query_string"=>$query_string])->withquery($searchParams);
+      // return view('pages.summary',["query_string"=>$query_string])->withquery($searchParams);
     }
     else{
         $title = $request->get('Title'); 
