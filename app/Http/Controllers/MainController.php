@@ -238,10 +238,11 @@ class MainController extends Controller
       // return redirect()->back()->with('message', 'Record Indexed Successfully!!!');
   }
 
-
+  
   public function process_claim(Request $request)
     {  
       
+      $estTime = (new \DateTime('America/New_York'));
       $first_name = Auth::user() -> first_name;
       $description      = $request->input("description");
       $handle_number    = $request->input('handle_num');
@@ -249,8 +250,8 @@ class MainController extends Controller
       $source_code      = $request->input('source_code');
       $datasets         = $request->input('datasets');
       $exp_results      = $request->input('exp_results');
-      $created_at       = new \DateTime();
-      $updated_at       = new \DateTime();
+      $created_at       = $estTime;
+      $updated_at       = $estTime;
       
       
       $data=array("description"=>$description,
