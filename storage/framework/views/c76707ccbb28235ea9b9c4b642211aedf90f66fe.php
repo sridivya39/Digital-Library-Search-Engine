@@ -7,6 +7,8 @@
   <!-- <link rel="stylesheet" href="css/custom-style.css" /> -->
   <link href="https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap" rel="stylesheet">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style type="text/css">
    .box{
     width:60%;
@@ -67,8 +69,36 @@
     background-color:  #82375d;
     border-color:#82375d;
 }
+.icons i,
+.icons svg {
+  color: blue;
+}
   </style>
  </head>
+ <script>
+var recognition = new webkitSpeechRecognition();
+
+recognition.onresult = function(event) { 
+  var saidText = "";
+  for (var i = event.resultIndex; i < event.results.length; i++) {
+    if (event.results[i].isFinal) {
+      saidText = event.results[i][0].transcript;
+    } else {
+      saidText += event.results[i][0].transcript;
+    }
+  }
+  // Update Textbox value
+  document.getElementById('speechText').value = saidText;
+ 
+  // Search Posts
+  searchPosts(saidText);
+}
+
+function startRecording(){
+  recognition.start();
+}
+
+</script>
  <body>
   <br />
   <div class="container box">
@@ -87,13 +117,15 @@
    <?php else: ?>
     <script>window.location = "/main";</script>
    <?php endif; ?>
-   <form action="/search" method="POST" role="search">
+   <form action="/loginsearch" method="POST" role="search">
     <?php echo e(csrf_field()); ?>
 
     <div class="input-group" style="margin:20px;">
-    <input type="text" class="form-control" name="q"
-        placeholder="Search"> <span class="input-group-btn">
-    <div class="form-group" style="margin-left:20px;">
+    <input type="text" class="form-control" name="q" id='speechText'
+    placeholder="Search"> <span class="input-group-btn">
+    <input type='button' id='start' value='Speak' style="font-weight:bold" class="btn btn-primary" onclick='startRecording();'>
+    <!-- <i style="font-size:50px" id='start' onclick='startRecording();'class="fa">&#xf130; </i> -->
+    <!-- <div class="form-group" style="margin-left:20px;"> -->
         <input type="submit" name="Submit" class="btn btn-primary" value="Submit" style="font-weight:bold" />
     </div>
   </form>
@@ -101,6 +133,7 @@
     <?php echo e(csrf_field()); ?> 
     <div class="form-group" style="margin-left:20px;">
         <input type="submit" name="Submit" class="btn btn-primary" value="Advanced Search" style="font-weight:bold" />
+       
     </div>
   </form>
 </div>

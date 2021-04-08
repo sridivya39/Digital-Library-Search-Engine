@@ -112,7 +112,6 @@ color: #82375d;
       'size' => 1000
     ]
   ];
-
   $response = $client->search($query);
   $total = $response['hits']['total']['value'];
   

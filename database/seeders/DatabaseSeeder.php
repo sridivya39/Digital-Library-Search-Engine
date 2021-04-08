@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         Eloquent::unguard();
         $this->call(UsersTablesSeeder::class);
+        $this->call(ClaimTablesSeeder::class);
         // \App\Models\User::factory(10)->create();
     }
 }

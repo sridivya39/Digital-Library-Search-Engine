@@ -49,30 +49,35 @@
             {{ $message }}
         </div>
     @endif
-  <form action="/add" method="GET" role="add">
+  <form action="/add_data" method="POST" role="add">
+  {{ csrf_field() }}
   <div class="form-group">
      <label>Title</label>
-     <input type="text" name="Title" class="form-control" />
+     <input type="text" name="title" class="form-control" />
      </div>
      <br>
      <div class="form-group">
-     <label>Author</label>
-     <input type="text" name="Author" class="form-control" />
+     <label>Contributed Author</label>
+     <input type="text" name="contributor_author" class="form-control" />
      </div>
      <br>
       <div class="form-group">
      <label>University</label>
-     <input type="text" name="University" class="form-control" />
+     <input type="text" name="degree_grantor" class="form-control" />
      </div>
      <br>
      <div class="form-group">
      <label>Name of the Degree</label>
-     <input type="text" name="Name of the Degree" class="form-control" />
+     <input type="text" name="degree_name" class="form-control" />
      </div>
       <br>
       <div class="form-group">
      <label>Department</label>
-     <input type="text" name="Department" class="form-control" />
+     <input type="text" name="contributor_department" class="form-control" />
+     </div> 
+     <div class="form-group">
+     <label>Handle Number</label>
+     <input type="text" name="handle" class="form-control" />
      </div> 
     <div class="form-box">   
     <br>     

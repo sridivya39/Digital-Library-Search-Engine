@@ -44,6 +44,23 @@ color: #82375d;
     font-size:100px;
     text-align:center;
     }
+    ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #dddddd;
+  }
+
+  li {
+    float: right;
+  }
+
+  li a {
+    color: #82375d;
+    display: block;
+    padding: 8px;
+  }
     .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
       color: #d9edf7;
     }
@@ -87,7 +104,19 @@ color: #82375d;
 }
 </style>
 </head>
-<br />
+<ul>
+  <li><a href="/adv_search"><b>Advance Search</b></a></li>
+  <li><a href="{{URL::route('MainController')}}"><b>Login</b></a></li>
+  <li><a href=/Signup><b>Register</b></a></li>
+  <button onclick="goBack()" class='btn btn-link'><b>HOME</b></button>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+
+</ul>
 <p class="heading">Just Question</p>
 <body>
 <script>
@@ -185,7 +214,6 @@ function startRecording(){
     '<table class="table table-stripped" id="dt1">
     <thead>
     <th>Title</th>
-    <th>Download</th>
     </thead>
     <tbody>';
 
@@ -201,24 +229,28 @@ function startRecording(){
       $labs = (isset($source['_source']['description_abstract']) ? $source['_source']['description_abstract'] : ""); 
       $dept = (isset($source['_source']['contributor_department']) ? $source['_source']['contributor_department'] : ""); 
       
-      $path = "/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/".$lhnum."/";
+    //   $path = "/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/".$lhnum."/";
     
-      $dir =scandir($path);
-      foreach($dir as $file){
-      $fname=$path.$file;
-      }
-    if(mime_content_type($fname)=='application/pdf')
-    {
-        $name="/dissertation/".$lhnum."/".$file;
-    }
+    //   $dir =scandir($path);
+    //   foreach($dir as $file){
+    //   $fname=$path.$file;
+    //   }
+    // if(mime_content_type($fname)=='application/pdf')
+    // {
+    //     $name="/dissertation/".$lhnum."/".$file;
+    // }
     
       
       echo "<tr>
       <td>".$title."
       <br>
       <br>
-      <a role='button' class='btn btn-link' href='".$lsourceURL."' target='_blank'>Click for more details</a> <a role='button' class='btn btn-link' href='/summary' target='_blank'>Summary</a></td>
-      <td><a href= $name class='btn btn-link' target='_blank' download>Download</a>
+      <a role='button' class='btn btn-link' href='".$lsourceURL."' target='_blank'><b>Click for more details</b></a> 
+      <form action='/summ' method='GET' role='summary'>
+      <br>
+      <input type='hidden' name='q' value='{{".$lhnum."}}' />
+      <input type='submit' name='Summary' class='btn btn-primary' value='Summary' style='font-weight:bold' /> 
+      </form>
 
       </td>";
     ?>
@@ -235,6 +267,7 @@ function startRecording(){
     ?>
     
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/mark.js/7.0.0/jquery.mark.min.js"></script>
 <script>

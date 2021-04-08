@@ -32,6 +32,29 @@ color: #82375d;
     background-color: #e8e6e6;
     border-color: #999;
 }
+a {
+    color: #fff;
+    text-decoration: none;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #dddddd;
+  }
+li {
+    float: right;
+  }
+
+  li a {
+    color: #82375d;
+    display: block;
+    padding: 8px;
+  }
+.form-control {
+  color: #82375d;
+}
    body {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 14px;
@@ -63,10 +86,98 @@ color: #82375d;
     background-color: #82375d;
     }
 
+    body {font-family: Arial, Helvetica, sans-serif;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
+
+/* Modal Content */
+.modal-content {
+  background-color:#fff;
+  color: #82375d;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid black;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#respond {
+  margin-top: 40px;
+}
+
+#respond input[type='text'],
+#respond input[type='email'],
+#respond textarea {
+  margin-bottom: 10px;
+  display: block;
+  width: 100%;
+  color: #82375d;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+  line-height: 1.4em;
+
+}
+#respond
+{
+  background-color: #82375d;
+  width: 1000px;
+  border: 15px solid white;
+  padding: 50px;
+  margin: 20px;
+}
+
 </style>
 </head>
+<ul>
+<button onclick="goBack()" class='btn btn-link'>Go Back</button>
+<li><a href="{{ url('/main/logout') }}"><b>Logout</b></a></li>
+</ul>
+<script>
+        function goBack() {
+          window.history.back();
+        }
+</script>
+
+<p class="heading">Summary</p>
+
 <div class="container box">
+@if(session()->has('message'))
+    <div class="alert alert-success">
+        {{ session()->get('message') }}
+    </div>
+  @endif
 <?php
   require '/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/vendor/autoload.php';
   // $q = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $query_string);
@@ -120,39 +231,50 @@ color: #82375d;
       echo "<tr>
       <td><b>Title :</b> ".$title."
       <br>
+      <br>
       <b>Author :</b> ".$lauthor."
+      <br>
+      <b>Handle Number :</b> ".$lhnum."
       <br>
       <b>University :</b> ".$ldeg."
       <br>
+      <br>
       <b>Publisher :</b> ".$lpublisher."
       <br>
+      <br>
       <b>Abstract :</b>  ".$labs."
+      <br> 
       <br>
       <b>Department :</b> ".$dept."
       <br>
+      <br>
       <b>Year :</b>  ".$year."
+      <br>
       <br>
       <b>Degree :</b>  ".$degree_name."
       <br>
+      <br>
       <b>Degree Level :</b> ".$degree_level."
+      <br>
       <br>
       <b>Type :</b> ".$type."
       <br>
-      <b>Source URL:</b> ".$lsourceURL ."
       <br>
-      <b>Identifier URL:</b> ".$identifierURL ."
+      <a  href='".$lsourceURL."' target='_blank'>Source URL</a> 
+      <br>
+      <br>
+      <a  href='".$identifierURL ."' target='_blank'>identifier URL</a> 
+      <br>
       <br>
 
       </td>";
       ?>
     
-       <button onclick="goBack()" class='btn btn-link'>Go Back</button>
+      
+       <button id="myBtn" class='btn btn-link'> Add Claim</button>
 
-        <script>
-        function goBack() {
-          window.history.back();
-        }
-        </script>
+        
+
   <?php
       echo"</tr>";
       
@@ -160,4 +282,128 @@ color: #82375d;
       echo "</tbody></table>";
   
 ?>
+ <h2>Claims</h2>
+@foreach($claiminfo as $key => $data)
+<!-- <div> -->
+    <!-- <tr>    
+      <th>{{$data->claim_id}}</th><br>
+      <th>{{$data->username}}</th>
+      <th>{{$data->description}}</th>
+      <th>{{$data->handle_number}}</th>
+      <th>{{$data->can_reproduce}}</th>      
+      <th>{{$data->source_code}}</th>    
+      <th>{{$data->datasets}}</th>    
+      <th>{{$data->exp_results}}</th>  
+      <th>{{$data->created_at}}</th>             
+    </tr> -->
+
+    <div id="respond">
+
+    <label class="required">Claim #</label>
+    <input type="text" value="{{$data->claim_id}}" required="required" readonly>
+
+    <label class="required">Claim by</label>
+    <input type="text" value="{{$data->username}}" required="required" readonly>
+
+    <label class="required">Claim</label>
+    <input type="text" value="{{$data->description}}" required="required" readonly>
+
+    <label class="required">Can you Reproduce?</label>
+    <input type="text" value="{{$data->can_reproduce}}" required="required" readonly>
+
+    <label class="required">Source Code:</label>
+    <input type="text" value="{{$data->source_code}}" required="required" readonly>
+    
+    <label class="required">Datasets:</label>
+    <input type="text" value="{{$data->datasets}}" required="required" readonly>
+
+    <label class="required">Experiments and results:</label>
+    <input type="text" value="{{$data->exp_results}}" required="required" readonly>
+
+    <label class="required">Claimed at:</label>
+    <input type="text" value="{{$data->created_at}}" required="required" readonly>
+
+
+
 </div>
+@endforeach
+
+</div>
+
+<form action="/main/process_claim" method="POST" role="process_claim">
+    {{ csrf_field() }}
+<div id="myModal" class="modal">
+   <!-- Modal content -->
+   <div class="modal-content">
+      <span class="close">&times;</span>
+      <label>Claim</label>
+      <div class="form-group">
+      <input type="hidden" name="handle_num" value="{{ $lhnum }}"/>
+         <input type="text" name="description" class="form-control" />
+      </div>
+      <br>
+      <div class="form-group">
+         <label>Can you reproduce this Claim ?</label>
+         <br>
+         <input type="radio" name="can_reproduce"id="yes" value ="yes" class="btn btn-secondary">
+         <label for="yes">Yes</label><br>
+         <input type="radio" name="can_reproduce"id="no" value ="no" class="btn btn-secondary">
+         <label for="no">No</label><br>
+         <input type="radio" name="can_reproduce"id="partially" value ="partially" class="btn btn-secondary">
+         <label for="partially">Partially</label><br>
+      </div>
+      <br>
+      <div class="form-group">
+         <label>Proof of experiments:</label>
+         <br>
+         <label>Source Code:</label>
+         <input type="text" name="source_code" class="form-control" />
+      </div>
+      <br>
+      <div class="form-group">
+         <label>Datasets:</label>
+         <input type="text" name="datasets" class="form-control" />
+      </div>
+      <br>
+      <div class="form-group">
+         <label>Experiments and results:</label>
+         <input type="text" name="exp_results" class="form-control" />
+      </div>
+      <div class="form-group">
+      <div class="modal-footer">
+         <br>
+         <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+      </div>
+   </div>
+</div>
+</div>
+</form>
+
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>

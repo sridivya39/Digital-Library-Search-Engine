@@ -50,15 +50,21 @@ Route::get('/uploadfile', function () {
       return view('pages.upload');
     });
 
-Route::get('/add', function () {
-  return view('pages.upload')->with('message','Your data has been indexed !');
-});
+Route::post('/add_data', 'MainController@add_data');
 
 Route::get('/adv_search', function () {
     return view('pages.login')->with('message','You need an account to access Advance Search!');
 });
+
+Route::get('/add_claim', function () {
+  return view('pages.login')->with('message','You need an account to add claim!');
+});
+
 Route::post('/process_advsearch','MainController@process_advsearch');
+
 Route::post('/main/process_signup','MainController@process_signup');
+
+Route::post('/main/process_claim','MainController@process_claim');
 
 Route::get('/index', function () {
         return view('pages.index');
@@ -77,69 +83,17 @@ Route::get('main/successlogin', 'MainController@successlogin');
 Route::get('main/logout', 'MainController@logout');
 Route::get('/data', function () {return view('projectdata');});
 
-
-Route::post('/search', function (Request $request) {
-  $query_string = $request->get("q");
-  $q = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $query_string);
-
-    if ($query_string != "") {
-        $searchParams = [
-        'index' => 'projectdata',
-        'body' => [
-          'query' => [
-            'bool' =>[
-              'must' =>[
-                'multi_match' =>[
-                'query'=> $q,
-                'fields' => ['handle','contributor_author','title','type','subject','description_abstract','degree_grantor'.
-              'contributor_department','contributor_committeemember','contributor_committeechair','publisher']
-                  ]
-                ]
-              ]
-              ],
-        'size'=>1000
-        ]
-      ];
-
-      return view('pages.serp',["query_string"=>$query_string])->withquery($searchParams);
-      // return view('pages.summary',["query_string"=>$query_string])->withquery($searchParams);
-    }
-    else{
-        $title = $request->get('Title'); 
-        $author = $request->get('Author'); 
-        $dept= $request->get('Department'); 
-        $university = $request->get('University'); 
-        $degree_name = $request->get('Name of the Degree');
-         
-         if ($title != "" || $author != "" || $dept != "" || $university != "" || $degree_name != "")
-         {
-          $advParams =  [
-            'index' => 'projectdata',
-            'body' => [
-              'query' => [
-                'bool' =>[
-                  'must' =>[
-                    'match' =>[
-                    'title'=> $title ?? '',
-                  ],
-                  'match' =>[
-                    'contributor_author'=> $author ?? '',
-                  ],
-                    ]
-                  ]
-                ],
-            'size'=>50
-            ]
-          ];
-           return view('pages.advserp',["query_string"=>$query_string])->withquery($advParams);
-         }
-         else
-         {
-           return redirect('/');
-         }
-    }
-    return view('pages.advancesearch');
-});
+// Route::get('/summary', function ()
+// {
+//   return view('pages.summary');
+  
+// });
+  
+Route::post('/search', 'MainController@search');
+Route::post('/loginsearch', 'MainController@loginsearch');
+Route::get('/summ', 'MainController@summ');
+Route::get('/summary', 'MainController@summary');
+Route::get('/getclaim', 'MainController@getclaim');
 
 Auth::routes();
 ?>

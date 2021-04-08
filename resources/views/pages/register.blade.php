@@ -38,7 +38,7 @@
     font-size:100px;
     text-align:center;
     }
-  </style>
+</style>
  </head>
  <body>
   <br />
@@ -88,15 +88,14 @@
      <input type="email" name="email" class="form-control" />
     </div>
     <div class="form-group">
-     <label>Enter Password*</label>
+     <label>Password*</label>
      <input type="password" name="password" class="form-control" data-toggle="password"/>
-    </div> 
-
-    <div class="form-group">
-
-    <label>Confirm Password*</label>
-    <input type="password" name="confirm_password" class="form-control" data-toggle="password" />
     </div>
+    <div class="form-group">
+     <label>Confirm Password*</label>
+     <input type="password" name="confirm_password" class="form-control" data-toggle="password"/>
+    </div>
+
     <div id="passwordHelpBlock" class="form-text">
     Your password must be 6-20 characters long, can contain letters and numbers, and must not contain spaces, special characters, or emoji.
     </div>

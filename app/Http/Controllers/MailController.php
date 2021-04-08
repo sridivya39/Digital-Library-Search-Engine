@@ -12,6 +12,7 @@ class MailController extends Controller
     {
         $data =[
             'first_name'=>$first_name,
+            'email'=>$email,
             'verification_code'=>$verification_code
         ];
          Mail::to($email)->send(new SignupEmail($data));
