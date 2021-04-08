@@ -55,6 +55,7 @@ color: #82375d;
   li {
     float: right;
   }
+  
 
   li a {
     color: #82375d;
@@ -105,13 +106,15 @@ color: #82375d;
 </style>
 </head>
 <ul>
-  <button onclick="goBack()" class='btn btn-link'><b>HOME</b></button>
-  <li><a href="{{ url('/main/logout') }}"><b>Logout</b></a></li>
-<script>
+  <!-- <button onclick="goBack()" class='btn btn-link'><b>HOME</b></button> -->
+  
+  <li><a href="{{ url('/main/logout') }}"><b>LOGOUT</b></a></li>
+  <li><a href="{{ url('/main/successlogin') }}"><b>HOME</b></a></li>
+<!-- <script>
 function goBack() {
   window.history.back();
 }
-</script>
+</script> -->
 
 </ul>
 <p class="heading">Just Question</p>
@@ -142,7 +145,7 @@ function startRecording(){
 </script>
 
 <div class="container box">
-<form action="/search" method="POST" role="search">
+<form action="/loginsearch" method="POST" role="search">
     {{ csrf_field() }}
     <div class="input-group" style="margin:20px;">
         <input type="text" class="form-control" name="q"  id='speechText'
@@ -226,16 +229,16 @@ function startRecording(){
       $labs = (isset($source['_source']['description_abstract']) ? $source['_source']['description_abstract'] : ""); 
       $dept = (isset($source['_source']['contributor_department']) ? $source['_source']['contributor_department'] : ""); 
       
-      $path = "/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/".$lhnum."/";
+    //   $path = "/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/".$lhnum."/";
     
-      $dir =scandir($path);
-      foreach($dir as $file){
-      $fname=$path.$file;
-      }
-    if(mime_content_type($fname)=='application/pdf')
-    {
-        $name="/dissertation/".$lhnum."/".$file;
-    }
+    //   $dir =scandir($path);
+    //   foreach($dir as $file){
+    //   $fname=$path.$file;
+    //   }
+    // if(mime_content_type($fname)=='application/pdf')
+    // {
+    //     $name="/dissertation/".$lhnum."/".$file;
+    // }
     
       
       echo "<tr>
@@ -245,7 +248,7 @@ function startRecording(){
       <a role='button' class='btn btn-link' href='".$lsourceURL."' target='_blank'><b>Click for more details</b></a> 
       <form action='/summary' method='GET' role='summary'>
       <br>
-      <input type='hidden' name='q' value='{{".$lhnum."}}' />
+      <input type='hidden' name='q' value='".$lhnum."' />
       <input type='submit' name='Summary' class='btn btn-primary' value='Summary' style='font-weight:bold' /> 
       </form>
 

@@ -217,15 +217,15 @@ li {
       $degree_level = (isset($source['_source']['degree_level']) ? $source['_source']['degree_level'] : "");
       $type =  (isset($source['_source']['type']) ? $source['_source']['type'] : "");
       $identifierURL =  (isset($source['_source']['identifier_uri']) ? $source['_source']['identifier_uri'] : "");
-      $path = "/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/".$lhnum."/";
-      $dir =scandir($path);
-      foreach($dir as $file){
-          $fname=$path.$file;
-      }
-      if(mime_content_type($fname)=='application/pdf')
-      {
-          $name="/dissertation/".$lhnum."/".$file;
-      }
+    //   $path = "/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/".$lhnum."/";
+    //   $dir =scandir($path);
+    //   foreach($dir as $file){
+    //       $fname=$path.$file;
+    //   }
+    //   if(mime_content_type($fname)=='application/pdf')
+    //   {
+    //       $name="/dissertation/".$lhnum."/".$file;
+    //   }
     }
        
       echo "<tr>
@@ -283,20 +283,12 @@ li {
   
 ?>
  <h2>Claims</h2>
-@foreach($claiminfo as $key => $data)
-<!-- <div> -->
-    <!-- <tr>    
-      <th>{{$data->claim_id}}</th><br>
-      <th>{{$data->username}}</th>
-      <th>{{$data->description}}</th>
-      <th>{{$data->handle_number}}</th>
-      <th>{{$data->can_reproduce}}</th>      
-      <th>{{$data->source_code}}</th>    
-      <th>{{$data->datasets}}</th>    
-      <th>{{$data->exp_results}}</th>  
-      <th>{{$data->created_at}}</th>             
-    </tr> -->
+ <?php 
+//  dd($claiminfo);
+ if($claiminfo != ''){
+foreach($claiminfo as $key => $data){
 
+?>
     <div id="respond">
 
     <label class="required">Claim #</label>
@@ -326,8 +318,11 @@ li {
 
 
 </div>
-@endforeach
-
+<?php 
+}
+ 
+ }
+ ?>
 </div>
 
 <form action="/main/process_claim" method="POST" role="process_claim">

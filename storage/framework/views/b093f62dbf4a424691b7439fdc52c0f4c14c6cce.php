@@ -25,9 +25,9 @@
     background-color: #82375d;
     }
     .btn-primary {
-        color: #333;
-        background-color: #d9edf7;
-        border-color: #2e6da4;
+        color: #82375d;
+        background-color: #e8e6e6;
+        border-color: #999;
         font-weight: bold;
     }
     .btn-link {
@@ -35,6 +35,22 @@
         color: #e7f0fe;
         /* border-radius: 0; */
     }
+    ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #dddddd;
+  }
+  li {
+    float: left;
+  }
+
+  li a {
+    color: #82375d;
+    display: block;
+    padding: 8px;
+  }
     a {
     color: #fcf8e3;
     text-decoration: none;
@@ -46,6 +62,10 @@
     }
   </style>
  </head>
+ <ul>
+ <li><a href="<?php echo e(url('/index')); ?>"><b>HOME</b></a></li>
+</ul>
+
  <body>
   <br />
   <p class="heading">Login</p>

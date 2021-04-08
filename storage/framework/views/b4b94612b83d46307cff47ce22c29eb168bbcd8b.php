@@ -250,7 +250,7 @@ function startRecording(){
       <a role='button' class='btn btn-link' href='".$lsourceURL."' target='_blank'><b>Click for more details</b></a> 
       <form action='/summ' method='GET' role='summary'>
       <br>
-      <input type='hidden' name='q' value='{{".$lhnum."}}' />
+      <input type='hidden' name='q' value='".$lhnum."' />
       <input type='submit' name='Summary' class='btn btn-primary' value='Summary' style='font-weight:bold' /> 
       </form>
 

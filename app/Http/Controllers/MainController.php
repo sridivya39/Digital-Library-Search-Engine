@@ -163,6 +163,7 @@ class MainController extends Controller
       if (DB::table('claim')->where('handle_number', $request->q)->exists()) {
         // $userInfo = Auth::user();
         $claiminfo = DB::table('claim')->where('handle_number', $request->q)->first();
+      
         dd($claiminfo);
       }
     }
@@ -170,13 +171,11 @@ class MainController extends Controller
     public function summary(Request $request)
     {
 
-        // echo $request;
-        // $query_string = $request->get("id");
-        // dd($request);
-        // $userInfo = Auth::user();
+        // dd ($request);
         $query_string = $request->get("q");
-        // dd($query_string);
-        $claiminfo = DB::table('claim')->get();
+        // $claiminfo = DB::table('claim')->whereIn('handle_number', $query_string)->get(); 
+        $claiminfo = DB::select( DB::raw("SELECT * FROM claim WHERE handle_number = '$query_string'"));
+        // dd($claiminfo);
 
         
         $q = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $query_string);
@@ -242,6 +241,7 @@ class MainController extends Controller
 
   public function process_claim(Request $request)
     {  
+      
       $first_name = Auth::user() -> first_name;
       $description      = $request->input("description");
       $handle_number    = $request->input('handle_num');
@@ -249,8 +249,8 @@ class MainController extends Controller
       $source_code      = $request->input('source_code');
       $datasets         = $request->input('datasets');
       $exp_results      = $request->input('exp_results');
-      $created_at = new \DateTime();
-      $updated_at = new \DateTime();
+      $created_at       = new \DateTime();
+      $updated_at       = new \DateTime();
       
       
       $data=array("description"=>$description,

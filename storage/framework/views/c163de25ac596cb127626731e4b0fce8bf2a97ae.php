@@ -202,7 +202,6 @@ li {
   ];
 
     $response = $client->search($query);
-    dd($response);
     foreach( $response['hits']['hits']as $source){
       $id = (isset($source['_id'])? $source['_id'] : "");
       $title= (isset($source['_source']['title'])? $source['_source']['title'] : "");
@@ -219,15 +218,15 @@ li {
       $degree_level = (isset($source['_source']['degree_level']) ? $source['_source']['degree_level'] : "");
       $type =  (isset($source['_source']['type']) ? $source['_source']['type'] : "");
       $identifierURL =  (isset($source['_source']['identifier_uri']) ? $source['_source']['identifier_uri'] : "");
-      $path = "/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/".$lhnum."/";
-      $dir =scandir($path);
-      foreach($dir as $file){
-          $fname=$path.$file;
-      }
-      if(mime_content_type($fname)=='application/pdf')
-      {
-          $name="/dissertation/".$lhnum."/".$file;
-      }
+    //   $path = "/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/".$lhnum."/";
+    //   $dir =scandir($path);
+    //   foreach($dir as $file){
+    //       $fname=$path.$file;
+    //   }
+    //   if(mime_content_type($fname)=='application/pdf')
+    //   {
+    //       $name="/dissertation/".$lhnum."/".$file;
+    //   }
     }
        
       echo "<tr>
@@ -285,20 +284,12 @@ li {
   
 ?>
  <h2>Claims</h2>
-<?php $__currentLoopData = $claiminfo; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-<!-- <div> -->
-    <!-- <tr>    
-      <th><?php echo e($data->claim_id); ?></th><br>
-      <th><?php echo e($data->username); ?></th>
-      <th><?php echo e($data->description); ?></th>
-      <th><?php echo e($data->handle_number); ?></th>
-      <th><?php echo e($data->can_reproduce); ?></th>      
-      <th><?php echo e($data->source_code); ?></th>    
-      <th><?php echo e($data->datasets); ?></th>    
-      <th><?php echo e($data->exp_results); ?></th>  
-      <th><?php echo e($data->created_at); ?></th>             
-    </tr> -->
+ <?php 
+//  dd($claiminfo);
+ if($claiminfo != ''){
+foreach($claiminfo as $key => $data){
 
+?>
     <div id="respond">
 
     <label class="required">Claim #</label>
@@ -328,8 +319,11 @@ li {
 
 
 </div>
-<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
+<?php 
+}
+ 
+ }
+ ?>
 </div>
 
 <form action="/main/process_claim" method="POST" role="process_claim">
