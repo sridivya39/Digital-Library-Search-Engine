@@ -230,6 +230,7 @@ function startRecording(){
     '<table class="table table-stripped" id="dt1">
     <thead>
     <th>Title</th>
+    <th>Download</th>
     </thead>
     <tbody>';
 
@@ -280,6 +281,11 @@ function startRecording(){
         echo "<input type='submit' name='Favorite' class='btn btn-primary' value='AddFavorite' style='font-weight:bold' /> ";
       }
       echo"
+      </form>
+      <br>
+      <form method='GET' action='/download'>
+        <input type='hidden' name='q' value='".$lhnum."' />
+        <td><button class='btn btn-primary' type='submit'>Download</button></td>
       </form>
       </td>";
     ?>
