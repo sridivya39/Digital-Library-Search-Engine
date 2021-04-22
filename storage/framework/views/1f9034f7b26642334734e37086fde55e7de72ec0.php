@@ -39,6 +39,11 @@ color: #82375d;
     color: #d9edf7;
     background-color: #82375d;
     }
+    .head{
+    font-family: 'Akaya Telivigala', cursive;
+    font-size:50px;
+    text-align:center;
+    }
     .heading{
     font-family: 'Akaya Telivigala', cursive;
     font-size:100px;
@@ -116,7 +121,10 @@ color: #82375d;
   $total = $response['hits']['total']['value'];
   
   if ($total == 0){
-    echo '<script>alert("Not a valid Search")</script>';
+    echo'<div style="text-align:center;" class="alert alert-danger success-block">';
+    // echo '<h5>No Results Found..!</h5>';
+    echo '<p class="head">No Results Found..!</p>';
+    // echo '<script>alert("Not a valid Search")</script>';echo '<script>alert("Not a valid Search")</script>';
   }
   else{
     $score = $response['hits']['hits'][0]['_score'];

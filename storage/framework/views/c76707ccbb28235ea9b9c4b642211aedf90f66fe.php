@@ -105,6 +105,7 @@ function startRecording(){
 <ul>
   <li><a href="<?php echo e(url('/main/logout')); ?>"><b>Logout</b></a></li>
   <li><a href="/update"><b>Update Profile</b></a></li>
+  <li><a href="/fav"><b>Favorites</b></a></li>
 </ul>
 <p class="heading">Just Question</p>
 <p class="caption"><strong>A place to share knowledge and better understand the world</strong></p>
@@ -136,6 +137,7 @@ function startRecording(){
        
     </div>
   </form>
+  
 </div>
 </body>
 </html>

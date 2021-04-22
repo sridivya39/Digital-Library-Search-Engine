@@ -197,6 +197,7 @@ class MainController extends Controller
               'size'=>1000
               ]
             ];
+            // dd($searchParams);
         return view('pages.summary',["query_string"=>$query_string, "claiminfo"=>$claiminfo])->withquery($searchParams);
     }
   }
@@ -237,7 +238,58 @@ class MainController extends Controller
       
       // return redirect()->back()->with('message', 'Record Indexed Successfully!!!');
   }
+  public function fav(Request $request)
+  {
+        $email = Auth::user() -> email;
+        $favinfo = DB::select( DB::raw("SELECT distinct(handle_number) FROM favourite where email='$email'"));
+        $hnum_array= [];
+        foreach( $favinfo as $hnum){
+          array_push($hnum_array,$hnum->handle_number);
+        }
+        if (sizeof($hnum_array) >0) {
+          return view('pages.favouritelist',["hnum_array"=>$hnum_array]);
+        }else{
+          return view('pages.error',["heading"=>"Favorites"])->with('error', 'No Favorites!!!');
+        }
+      
+  }
 
+  public function addfav(Request $request)
+  {
+    //  dd ($request);
+       $email            = Auth::user() -> email;
+       $handle_number    = $request->input('handle_num');
+    
+      $data=array(
+      "email"        =>$email,
+      "handle_number"=>$handle_number);
+      
+      DB::table('favourite')->insert($data);
+      $email = Auth::user() -> email;
+      $favinfo = DB::select( DB::raw("SELECT distinct(handle_number) FROM favourite where email='$email'"));
+      $hnum_array= [];
+      foreach( $favinfo as $hnum){
+        array_push($hnum_array,$hnum->handle_number);
+      }
+      if (sizeof($hnum_array) >0) {
+        return view('pages.favouritelist',["hnum_array"=>$hnum_array])->with('message', 'Added to Favorites Successfully!!!');
+      }else{
+        return view('pages.error',["heading"=>"Favorites"])->with('error', 'No Favorites!!!');
+      }
+    }
+
+    public function delete($handle_number)
+    {
+           DB::delete(" delete FROM favourite where handle_number ='$handle_number' ");
+           return view('pages.error',["heading"=>"Favorites"])->with('message', 'Deleted Successfully!!!');
+    }
+
+    public function deleteAll(Request $request)
+    {
+           DB::delete(" delete from favourite where email ='$email' ");
+           return view('pages.error',["heading"=>"Favorites"])->with('message', 'Deleted All Successfully!!!');
+    }
+     
   
   public function process_claim(Request $request)
     {  
@@ -254,15 +306,15 @@ class MainController extends Controller
       $updated_at       = $estTime;
       
       
-      $data=array("description"=>$description,
+      $data=array("description"  =>$description,
                   "handle_number"=>$handle_number,
-                  "username"=>$first_name,
+                  "username"     =>$first_name,
                   "can_reproduce"=>$can_reproduce,
-                  "source_code"=>$source_code,
-                  "datasets"=>$datasets,
-                  "exp_results"=>$exp_results,
-                  "created_at"=>$created_at,
-                  "updated_at"=>$updated_at);
+                  "source_code"  =>$source_code,
+                  "datasets"     =>$datasets,
+                  "exp_results"  =>$exp_results,
+                  "created_at"   =>$created_at,
+                  "updated_at"   =>$updated_at);
       DB::table('claim')->insert($data);
       return redirect()->back()->with('message', 'Claim saved Successfully!!!');
 

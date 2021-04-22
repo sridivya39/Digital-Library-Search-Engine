@@ -1,4 +1,3 @@
-@section('content')
 <!DOCTYPE html>
 <html>
  <head>
@@ -22,6 +21,11 @@
     background-color: #82375d;
    }
    .btn-primary {
+    color: #82375d;
+    background-color: #e8e6e6;
+    border-color: #999;
+}
+.btn-link {
     color: #82375d;
     background-color: #e8e6e6;
     border-color: #999;
@@ -51,32 +55,80 @@ li a {
 }
   </style>
  </head>
- <p class="heading">Favourites</p>
+ <ul>
+<button onclick="goBack()" class='btn btn-link'>Go Back</button>
+<li><a href="{{ url('/deleteAll') }}"><b>DELETE ALL</b></a></li>
+</ul>
+
+<script>
+        function goBack() {
+          window.history.back();
+        }
+</script>
+ <p class="heading">Favorites</p>
+ 
 <div class="container">
-</div>
-<?php
-$title= (isset($source['_source']['title'])? $source['_source']['title'] : "");
-$URL = (isset($source['_source']['identifier_uri']) ? $source['_source']['identifier_uri'] : ""); 
-$abs = (isset($source['_source']['description_abstract']) ? $source['_source']['description_abstract'] : ""); 
+@if($message ?? '')
+    <div class="alert alert-success">
+     {{ $message ?? '' }}
+    </div>
+
+  @endif
+
+
+  <?php
+  
+require '/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/vendor/autoload.php';
+$q = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $hnum_array);
+$client = Elasticsearch\ClientBuilder::create()->build();
+$params = [
+  'index' => 'projectdata',
+  'body' => [
+    'query' => [
+      'bool' => [
+        'must' => [
+          "terms"=> [
+            "handle"=> $q
+          ]
+        ]
+      ]
+    ]
+  ]
+];
+$response = $client->search($params);
 echo '
 <table class="table table-stripped" id="dt1">
 <thead>
 <th>Title</th>
 <th>Author</th>
-<th>University</th>
-<th>Publisher</th>
-<th>Option</th>
-</thead>
-';
-foreach( $users ?? '' as $source){
-    echo "<tr>
-    <td><a role='button' class='btn btn-link' href='".$source->identifier_uri."' target='_blank'>".$source->title."</a></br>".$source->description_abstract."</td>
-    <td>".$source->author."</td>
-    <td>".$source->degree_grantor."</td>
-    <td>".$source->publisher."</td>
-    <td><a href = 'delete/{{ $source->id }}'>Delete</a></td>
-    </tr>";
+<th>Year</th>
+<th>Details</th>
+<th>Delete</th>
+</thead>';
+foreach( $response['hits']['hits'] as $source){
+  
+  $title= (isset($source['_source']['title'])? $source['_source']['title'] : "");
+  $author = (isset($source['_source']['contributor_author']) ? $source['_source']['contributor_author'] : ""); 
+  $year = (isset($source['_source']['date_issued']) ? $source['_source']['date_issued'] : ""); 
+  $lhnum = (isset($source['_source']['handle']) ? $source['_source']['handle'] : ""); 
+ 
+  echo "<tr>
+  <td>".$title."</td>
+  <td>".$author."</td>
+  <td>".$year."</td>
+  
+  <form action='/summary' method='GET' role='summary'>
+  <input type='hidden' name='q' value='".$lhnum."' />
+      <td><input type='submit' name='Summary' class='btn btn-primary' value='Summary' style='font-weight:bold' /> </td>
+      </form>
+      <form action='/delete/{$lhnum}' method='GET' role='delete'>
+          <td><input type='submit' name='Delete' class='btn btn-primary' value='Delete' style='font-weight:bold' /> </td>
+          </form>
+  </tr>";
 }
 echo "</table>";
+
 ?>
-@endsection
+</div>
+
+

@@ -45,7 +45,6 @@
         {{ session()->get('message') }}
     </div>
   @endif
-
   @if($message ?? '')
     <div class="alert alert-success">
      {{ $message ?? '' }}

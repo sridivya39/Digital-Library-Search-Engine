@@ -39,6 +39,11 @@ color: #82375d;
     color: #d9edf7;
     background-color: #82375d;
     }
+    .head{
+    font-family: 'Akaya Telivigala', cursive;
+    font-size:50px;
+    text-align:center;
+    }
     .heading{
     font-family: 'Akaya Telivigala', cursive;
     font-size:100px;
@@ -201,8 +206,19 @@ function startRecording(){
 
   $response = $client->search($query);
   $total = $response['hits']['total']['value'];
+
+  $email = Auth::user() -> email;
+  $favinfo = DB::select( DB::raw("SELECT distinct(handle_number) FROM favourite where email='$email'"));
+  $hnum_array= [];
+  foreach( $favinfo as $hnum){
+    array_push($hnum_array,$hnum->handle_number);
+  }
+  
   if ($total == 0){
-    echo '<script>alert("Not a valid Search")</script>';
+    echo'<div style="text-align:center;" class="alert alert-danger success-block">';
+    // echo '<h5>No Results Found..!</h5>';
+    echo '<p class="head">No Results Found..!</p>';
+    // echo '<script>alert("Not a valid Search")</script>';
   }
   else{
     $score = $response['hits']['hits'][0]['_score'];
@@ -231,6 +247,7 @@ function startRecording(){
       $labs = (isset($source['_source']['description_abstract']) ? $source['_source']['description_abstract'] : ""); 
       $dept = (isset($source['_source']['contributor_department']) ? $source['_source']['contributor_department'] : ""); 
       
+
     //   $path = "/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/".$lhnum."/";
     
     //   $dir =scandir($path);
@@ -241,6 +258,8 @@ function startRecording(){
     // {
     //     $name="/dissertation/".$lhnum."/".$file;
     // }
+
+
     
       
       echo "<tr>
@@ -253,7 +272,17 @@ function startRecording(){
       <input type='hidden' name='q' value='".$lhnum."' />
       <input type='submit' name='Summary' class='btn btn-primary' value='Summary' style='font-weight:bold' /> 
       </form>
-
+      <form action='/addfav' method='GET' role='addfavorite'>
+      <br>
+      <input type='hidden' name='handle_num' value='".$lhnum."' />
+      ";
+      if(in_array($lhnum,$hnum_array)) {
+        echo "<button type='button'disabled>AddFavorite</button>";
+      } else{
+        echo "<input type='submit' name='Favorite' class='btn btn-primary' value='AddFavorite' style='font-weight:bold' /> ";
+      }
+      echo"
+      </form>
       </td>";
     ?>
   
