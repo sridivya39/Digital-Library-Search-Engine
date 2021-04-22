@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\User;
@@ -171,7 +172,6 @@ class MainController extends Controller
     public function summary(Request $request)
     {
 
-        // dd ($request);
         $query_string = $request->get("q");
         // $claiminfo = DB::table('claim')->whereIn('handle_number', $query_string)->get(); 
         $claiminfo = DB::select( DB::raw("SELECT * FROM claim WHERE handle_number = '$query_string'"));
@@ -280,22 +280,53 @@ class MainController extends Controller
 
     public function delete($handle_number)
     {
+
            DB::delete(" delete FROM favourite where handle_number ='$handle_number' ");
            return view('pages.error',["heading"=>"Favorites"])->with('message', 'Deleted Successfully!!!');
     }
 
     public function deleteAll(Request $request)
     {
+           $email = Auth::user() -> email;
            DB::delete(" delete from favourite where email ='$email' ");
            return view('pages.error',["heading"=>"Favorites"])->with('message', 'Deleted All Successfully!!!');
     }
      
+    public function voteUpAndDown(Request $request)
+    {  
+      $vote_flag = $request->vote_flag;
+      $claim_number =  $request->claim_number;
+
+      if($vote_flag == 'down'){
+        DB::statement("UPDATE claim SET vote_flag = -1, vote_count = vote_count-1 where claim_id = $claim_number");
+      } else{
+        DB::statement("UPDATE claim SET vote_flag = 1, vote_count = vote_count+1 where claim_id = $claim_number");
+      }
+    }
   
+  public function download(Request $request){
+      $lhnum = $request->q;
+      $path = "/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/".$lhnum."/";
+    
+      $dir =scandir($path);
+      foreach($dir as $file){
+        $fname=$path.$file;
+      }
+      if(mime_content_type($fname)=='application/pdf')
+      {
+          $name="/dissertation/".$lhnum."/".$file;
+      }
+      // return response() -> download($name);
+      // return response()->download(storage_path("app/public/{$name}"));
+      return Storage::disk('public')->download($path, $name);
+  }
+
   public function process_claim(Request $request)
     {  
       
       $estTime = (new \DateTime('America/New_York'));
       $first_name = Auth::user() -> first_name;
+      $email      = Auth::user() -> email;
       $description      = $request->input("description");
       $handle_number    = $request->input('handle_num');
       $can_reproduce    = $request->input('can_reproduce');
@@ -314,7 +345,8 @@ class MainController extends Controller
                   "datasets"     =>$datasets,
                   "exp_results"  =>$exp_results,
                   "created_at"   =>$created_at,
-                  "updated_at"   =>$updated_at);
+                  "updated_at"   =>$updated_at,
+                  "email"        =>$email,);
       DB::table('claim')->insert($data);
       return redirect()->back()->with('message', 'Claim saved Successfully!!!');
 

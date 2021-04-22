@@ -84,30 +84,12 @@ Route::get('main/logout', 'MainController@logout');
 Route::get('/data', function () {return view('projectdata');});
 Route::get('/fav', 'MainController@fav');
 
-// Route::get('/summary', function ()
-// {
-//   return view('pages.summary');
-  
-// });
-Route::get('/dissertation/{lhnum}/{lpdf}', function () {
-  // $file = $_GET["/dissertation"] .".pdf"; 
-  $file = public_path('/dissertation/".$lhnum."/".$lpdf."').".pdf";
-  foreach($file as $source ){
-$lhnum = (isset($source['_source']['handle']) ? $source['_source']['handle'] : ""); 
-$lpdf = (isset($source['_source']['relation_haspart']) ? $source['_source']['relation_haspart'] : ""); 
-  //   $relativeName = basename($value);
-  }
-  $header = array(
-    'Content-Type: application/pdf',
-  );
-
-  return response() -> download(public_path($file));
-});
-
 Route::post('/search', 'MainController@search');
 Route::get('/delete/{handle_number}', 'MainController@delete');
 Route::get('/deleteAll', 'MainController@deleteAll');
 Route::post('/loginsearch', 'MainController@loginsearch');
+Route::get('/download', 'MainController@download');
+Route::post('/voteUpAndDown', 'MainController@voteUpAndDown');
 Route::get('/summ', 'MainController@summ');
 Route::get('/summary', 'MainController@summary');
 Route::get('/getclaim', 'MainController@getclaim');

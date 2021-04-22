@@ -123,10 +123,11 @@ function startRecording(){
     <div class="input-group" style="margin:20px;">
     <input type="text" class="form-control" name="q" id='speechText'
     placeholder="Search"> <span class="input-group-btn">
+    <input type="submit" name="Submit" class="btn btn-primary" value="Submit" style="font-weight:bold" />
     <input type='button' id='start' value='Speak' style="font-weight:bold" class="btn btn-primary" onclick='startRecording();'>
     <!-- <i style="font-size:50px" id='start' onclick='startRecording();'class="fa">&#xf130; </i> -->
     <!-- <div class="form-group" style="margin-left:20px;"> -->
-        <input type="submit" name="Submit" class="btn btn-primary" value="Submit" style="font-weight:bold" />
+      
     </div>
   </form>
   <form action="/process_advsearch" method="POST">

@@ -223,6 +223,7 @@ function startRecording(){
     '<table class="table table-stripped" id="dt1">
     <thead>
     <th>Title</th>
+    <th>Download</th>
     </thead>
     <tbody>';
 
@@ -238,18 +239,19 @@ function startRecording(){
       $labs = (isset($source['_source']['description_abstract']) ? $source['_source']['description_abstract'] : ""); 
       $dept = (isset($source['_source']['contributor_department']) ? $source['_source']['contributor_department'] : ""); 
       
-    //   $path = "/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/".$lhnum."/";
+      $path = "/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/".$lhnum."/";
     
-    //   $dir =scandir($path);
-    //   foreach($dir as $file){
-    //   $fname=$path.$file;
-    //   }
-    // if(mime_content_type($fname)=='application/pdf')
-    // {
-    //     $name="/dissertation/".$lhnum."/".$file;
-    // }
+      $dir =scandir($path);
+      foreach($dir as $file){
+      $fname=$path.$file;
+      }
+    if(mime_content_type($fname)=='application/pdf')
+    {
+        $name="/dissertation/".$lhnum."/".$file;
+    }
+
+    // <td><a href='".$name."' target='_blank' class='btn btn-primary' download>Download</a>
     
-      
       echo "<tr>
       <td>".$title."
       <br>
@@ -260,9 +262,14 @@ function startRecording(){
       <input type='hidden' name='q' value='".$lhnum."' />
       <input type='submit' name='Summary' class='btn btn-primary' value='Summary' style='font-weight:bold' /> 
       </form>
+      <br>
+      <form method='GET' class='btn btn-primary' action='/download'>
+        <input type='hidden' name='q' value='".$lhnum."' />
+        <button type='submit'>Download</button>
+      </form>
       </td>";
     ?>
-  
+      
 
     <?php
       echo"</tr>";

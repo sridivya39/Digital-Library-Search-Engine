@@ -32,6 +32,23 @@ color: #82375d;
     background-color: #e8e6e6;
     border-color: #999;
 }
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #dddddd;
+  }
+li {
+    float: right;
+  }
+
+  li a {
+    color: #82375d;
+    display: block;
+    padding: 8px;
+  }
+
 a {
     color: #fff;
     text-decoration: none;
@@ -54,6 +71,14 @@ a {
     }
 </style>
 </head>
+<ul>
+<button onclick="goBack()" class='btn btn-link'>Go Back</button>
+</ul>
+<script>
+        function goBack() {
+          window.history.back();
+        }
+</script>
 
 
 <p class="heading">Summary</p>
@@ -151,18 +176,14 @@ a {
       </td>";
       ?>
     
-        <button onclick="goBack()" class='btn btn-link'>Go Back</button>
+       
         <form method="get" class="btn btn-primary" action="/add_claim">
         <button type="submit">Add Claim</button>
         </form>
 
        
 
-        <script>
-        function goBack() {
-          window.history.back();
-        }
-        </script>
+        
 
   <?php
       echo"</tr>";

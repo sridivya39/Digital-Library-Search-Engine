@@ -11,7 +11,9 @@
   <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap" rel="stylesheet">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>  
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>" />
 <style type="text/css">
 mark{
 background: white;
@@ -152,10 +154,11 @@ li {
 #respond
 {
   background-color: #82375d;
-  width: 1000px;
-  border: 15px solid white;
-  padding: 50px;
-  margin: 20px;
+  width: 90%;
+  border: 2px solid white;
+  border-radius: 50px 20px;
+  padding: 2%;
+  margin: 5%;
 }
 
 </style>
@@ -283,7 +286,9 @@ li {
       echo "</tbody></table>";
   
 ?>
- <h2>Claims</h2>
+<hr>
+<br><br>
+ <h2 style='text-align:center;'>Claims</h2>
  <?php 
 //  dd($claiminfo);
  if($claiminfo != ''){
@@ -291,34 +296,84 @@ foreach($claiminfo as $key => $data){
 
 ?>
     <div id="respond">
+      <div style="overflow: hidden;">
+        <p style="float: right;" id='<?php echo e($data->claim_id); ?>'>
+          <?php
+           $email = Auth::user() -> email;
+          if($data->vote_flag == 0 && $data->email == $email){
+            echo "
+              <i onclick='voteToggle(this)' class='fas fa-thumbs-up up' style='font-size:18px; padding: 5px;'></i>
+              <b> $data->vote_count </b>
+              <i onclick='voteToggle(this)' class='fas fa-thumbs-down down' style='font-size:18px; padding: 5px;'></i> 
+            ";
+          } elseif ($data->vote_flag == 1 && $data->email == $email){
+            echo "
+              <i onclick='voteToggle(this)' class='fas fa-thumbs-up up' style='font-size:18px; padding: 5px; color:#00008b;'></i>
+              <b> $data->vote_count </b>
+              <i onclick='voteToggle(this)' class='fas fa-thumbs-down down' style='font-size:18px; padding: 5px;'></i> 
+            ";
+          }elseif ($data->vote_flag == -1 && $data->email == $email){
+            echo "
+              <i onclick='voteToggle(this)' class='fas fa-thumbs-up up' style='font-size:18px; padding: 5px;'></i>
+              <b> $data->vote_count </b>
+              <i onclick='voteToggle(this)' class='fas fa-thumbs-down down' style='font-size:18px; padding: 5px;  color:#000000;'></i>
+            ";
+          }elseif($data->email != $email){
+            echo "
+              <i onclick='voteToggle(this)' class='fas fa-thumbs-up up' style='font-size:18px; padding: 5px;'></i>
+              <b> $data->vote_count </b>
+              <i onclick='voteToggle(this)' class='fas fa-thumbs-down down' style='font-size:18px; padding: 5px;'></i> 
+            ";
+          }
+          ?>
+          
+        </p>
+      </div>
+      <div style="overflow: hidden;">
+        <p style="float: left;"><b>Claim #:</b></p>
+        <p style="margin-left: 30%;"><?php echo e($data->claim_id); ?></p>
+      </div>
 
-    <label class="required">Claim #</label>
-    <input type="text" value="<?php echo e($data->claim_id); ?>" required="required" readonly>
+      <div style="overflow: hidden;">
+        <p style="float: left;"><b>Claim by:</b></p>
+        <p style="margin-left: 30%;"><?php echo e($data->username); ?></p>
+      </div>
 
-    <label class="required">Claim by</label>
-    <input type="text" value="<?php echo e($data->username); ?>" required="required" readonly>
+      <div style="overflow: hidden;">
+        <p style="float: left;"><b>Claim:</b></p>
+        <p style="margin-left: 30%;"><?php echo e($data->description); ?></p>
+      </div>
 
-    <label class="required">Claim</label>
-    <input type="text" value="<?php echo e($data->description); ?>" required="required" readonly>
+      <div style="overflow: hidden;">
+        <p style="float: left;"><b>Can you Reproduce?:</b></p>
+        <p style="margin-left: 30%;"><?php echo e($data->can_reproduce); ?></p>
+      </div>
 
-    <label class="required">Can you Reproduce?</label>
-    <input type="text" value="<?php echo e($data->can_reproduce); ?>" required="required" readonly>
+      <div style="overflow: hidden;">
+        <p style="float: left;"><b>Source Code:</b></p>
+        <p style="margin-left: 30%;"><?php echo e($data->source_code); ?></p>
+      </div>
 
-    <label class="required">Source Code:</label>
-    <input type="text" value="<?php echo e($data->source_code); ?>" required="required" readonly>
-    
-    <label class="required">Datasets:</label>
-    <input type="text" value="<?php echo e($data->datasets); ?>" required="required" readonly>
+      <div style="overflow: hidden;">
+        <p style="float: left;"><b>Datasets:</b></p>
+        <p style="margin-left: 30%;"><?php echo e($data->datasets); ?></p>
+      </div>
 
-    <label class="required">Experiments and results:</label>
-    <input type="text" value="<?php echo e($data->exp_results); ?>" required="required" readonly>
+      <div style="overflow: hidden;">
+        <p style="float: left;"><b>Experiments and results:</b></p>
+        <p style="margin-left: 30%;"><?php echo e($data->exp_results); ?></p>
+      </div>
 
-    <label class="required">Claimed at:</label>
-    <input type="text" value="<?php echo e($data->created_at); ?>" required="required" readonly>
+      <div style="overflow: hidden;">
+        <p style="float: left;"><b>Claimed at:</b></p>
+        <p style="margin-left: 30%;"><?php echo e($data->created_at); ?></p>
+      </div>
 
-
-
-</div>
+      <div style="overflow: hidden;">
+        <p style="float: left;"><b>email:</b></p>
+        <p style="margin-left: 30%;"><?php echo e($data->email); ?></p>
+      </div>
+    </div>
 <?php 
 }
  
@@ -378,30 +433,72 @@ foreach($claiminfo as $key => $data){
 </form>
 
 <script>
-// Get the modal
-var modal = document.getElementById("myModal");
 
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+  function voteToggle(x) {
+    if(x.classList.contains('down') && (x.style.color == 'rgb(217, 237, 247)' || x.style.color == '')){
+      x.previousElementSibling.innerHTML = parseInt(x.previousElementSibling.innerHTML)-1;
+      x.previousElementSibling.previousElementSibling.style.color= '#d9edf7';
+      x.style.color= '#000000';
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        url: "/voteUpAndDown",
+        type:"POST",
+        data:{
+          vote_flag: 'down',
+          claim_number: x.parentNode.id
+        }
+      });
+    }
+    if(x.classList.contains('up') && (x.style.color == 'rgb(217, 237, 247)' || x.style.color == '')){
+      x.nextElementSibling.innerHTML = parseInt(x.nextElementSibling.innerHTML)+1;
+      x.nextElementSibling.nextElementSibling.style.color= '#d9edf7';
+      x.style.color= '#00008b';
 
-// When the user clicks the button, open the modal 
-btn.onclick = function() {
-  modal.style.display = "block";
-}
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        url: "/voteUpAndDown",
+        type:"POST",
+        data:{
+          vote_flag: 'up',
+          claim_number: x.parentNode.id
+        }
+      });
+    }
+  }
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
+  // Get the modal
+  var modal = document.getElementById("myModal");
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
+  // Get the button that opens the modal
+  var btn = document.getElementById("myBtn");
+
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks the button, open the modal 
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
     modal.style.display = "none";
   }
-}
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
 </script>
 <?php /**PATH /Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/blog/resources/views/pages/summary.blade.php ENDPATH**/ ?>
