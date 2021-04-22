@@ -263,9 +263,9 @@ function startRecording(){
       <input type='submit' name='Summary' class='btn btn-primary' value='Summary' style='font-weight:bold' /> 
       </form>
       <br>
-      <form method='GET' class='btn btn-primary' action='/download'>
+      <form method='GET' action='/download'>
         <input type='hidden' name='q' value='".$lhnum."' />
-        <button type='submit'>Download</button>
+        <td><button class='btn btn-primary' type='submit'>Download</button></td>
       </form>
       </td>";
     ?>

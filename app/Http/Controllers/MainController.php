@@ -314,11 +314,12 @@ class MainController extends Controller
       }
       if(mime_content_type($fname)=='application/pdf')
       {
-          $name="/dissertation/".$lhnum."/".$file;
+          $name="/Applications/XAMPP/xamppfiles/htdocs/sridivyamajeti/laravel/dissertation/".$lhnum."/".$file;
       }
-      // return response() -> download($name);
+      // dd($name);
+      return response() -> download($name);
       // return response()->download(storage_path("app/public/{$name}"));
-      return Storage::disk('public')->download($path, $name);
+      // return Storage::disk('public')->download($path, $name);
   }
 
   public function process_claim(Request $request)
@@ -398,6 +399,7 @@ class MainController extends Controller
                     'must' =>[
                       'multi_match' =>[
                       'query'=> $q,
+                      "fuzziness" => "AUTO",
                       'fields' => ['handle','contributor_author','title','type','subject','description_abstract','degree_grantor'.
                     'contributor_department','contributor_committeemember','contributor_committeechair','publisher']
                         ]
@@ -405,7 +407,11 @@ class MainController extends Controller
                     ]
                     ],
               'size'=>1000
-              ]
+                  ],
+                  
+                    
+                    
+
             ];
       
             return view('pages.serp',["query_string"=>$query_string])->withquery($searchParams);
