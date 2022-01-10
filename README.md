@@ -1,4 +1,2 @@
 Digital Library is an online search engine where users can search different books , create/edit profiles, save and add different types of books to their profiles. Implemented using Elasticsearch, Laravel, PHP,Javascript, MYSQL,Bootstrap, Kibana, HTML5 and CSS. eBook is an online search engine where users can search different books, create/edit profiles, save and add different types of books to their profiles. Built using LAMP stack that utilizes Elastic search to search for nearly > 1 million book records and provide accurate results. The voice-assisted search is integrated with the application to have a seamless experience of searching the user's favorite book using WEB API for the audio.
-The above mentioned technologies are embedded in this project.
-These steps are supposed to be followed to get this search engine followed:
-Required Software:Xampp,Mysql,elasticsearch,kibana.
+The above mentioned technologies are embedded in this project.Framework used is Laravel 
